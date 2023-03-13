@@ -1,0 +1,108 @@
+﻿@model Mood.EF2.User
+
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm("Create", "User", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Thêm mới quản trị viên</h1>
+                    </div>
+                    <div class="col-6">
+                        <div class="float-right pt-1">
+                            <input type="submit" value="Thêm mới quản trị viên" class="btn btn-primary btn-sm" />
+                            <button type="button" class="btn btn-danger btn-sm">
+                                <a href="/Admin/User/Index" class="text-white"><i class="fas fa-arrow-circle-left"></i>&nbsp; Trở về</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="form-group">
+                                <!--False khi nó nhận lỗi trả về là false mới báo-->
+                                @Html.ValidationMessage("CreateUser1", new { @class = "text-danger" })
+                                @Html.ValidationMessage("CreateSuccess", new { @class = "text-success" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Tên tài khoản", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Mật khẩu", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control", type = "password"} })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Họ Tên", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Đia Chỉ", htmlAttributes: new { @class = "control-label  col-12" })
+                                @Html.TextAreaFor(model => model.Adress, new { @class = "form-control", style = "height: 100px", @rows = 5 })
+                            </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.Label("Email", htmlAttributes: new { @class = "control-label  col-12" })
+                                    <div class="">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Số Điện Thoại", htmlAttributes: new { @class = "control-label  col-12" })
+                                    <div class="">
+                                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Chức Danh", htmlAttributes: new { @class = "control-label  col-12" })
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.IDQuyen, null, "[Chọn chức danh]", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label  col-12" })
+                                        @Html.CheckBoxFor(model => model.Status, new { @class = "form-control" })
+                                    </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+       
+}

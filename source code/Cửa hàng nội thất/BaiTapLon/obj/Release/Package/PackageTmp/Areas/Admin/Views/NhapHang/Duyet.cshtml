@@ -1,0 +1,148 @@
+﻿@model X.PagedList.IPagedList<Mood.NhapHangModel.NhapHangModelView>
+@using X.PagedList.Mvc;
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section jsFooter{
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" />
+<link href="~/Content/libs/toastr/toastr.css" rel="stylesheet" />
+    <style>
+        span {
+            cursor: pointer;
+        }
+    </style>
+    <script src="~/Content/libs/nhaphangController.js"></script>
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý sản phẩm nhập hàng</li>
+</ol>
+@using (Html.BeginForm("Index", "NhapHang", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+        </div>
+        <button type="submit" class="btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+    </div>
+    <br />
+
+}
+<!--
+
+    <div class="row">
+    <div class="col-md-12">
+        <div class="btn btn-info col-md-2">1. Đặt Hàng</div>
+        <div class="btn btn-info col-md-2">2. Duyệt Đơn</div>
+        <div class="btn btn-success col-md-2">3. Nhập Kho</div>
+        <div class="btn btn-success col-md-2">4. Hoàn Thành</div>
+    </div>
+</div>
+
+-->
+
+<ul class="bs4-order-tracking">
+    <li class="step active">
+        <div><i class="fas fa-user"></i></div> <a href="/Admin/NhapHang/Index">Đặt Hàng</a>
+    </li>
+    <li class="step active" id="step1">
+        <div><i class="fas fa-bread-slice"></i></div><a href="/Admin/NhapHang/Duyet">Duyệt Đơn</a>
+    </li>
+    <li class="step">
+        <div><i class="fas fa-truck"></i></div> <a href="/Admin/NhapHang/NhapKho">Nhập Kho</a>
+    </li>
+    <li class="step">
+        <div><i class="fas fa-birthday-cake"></i></div> <a href="/Admin/NhapHang/HoanThanh">Hoàn Thành</a>
+    </li>
+    
+</ul>
+<p class="text-center"><b>Hướng Dẫn:</b> Bạn click vào <span class="badge badge-info">Duyệt Đơn</span> để duyệt đơn hàng nhanh nhất.</p>
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Mã Đơn</th>
+            <th>Sản Phẩm</th>
+            <th>Số lượng nhập</th>
+            <th>Nhà Cung Cấp</th>
+            <th>Tổng Tiền</th>
+            <th>Trạng thái</th>
+            <th>Thanh Toán</th>
+            <th>Nhập Kho</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IDNhapHang">
+                <td>@item.IDNhapHang</td>
+                <td>@item.Name</td>
+                <td>@item.SoluongMoi</td>
+                <td>@item.NhaCungCap</td>
+                <td>@item.ThanhTien</td>
+                <td>
+                    @if ((int)item.Status == 0)
+                    {
+                        <span class="active-Status badge badge-info text-white" data-id="@item.IDNhapHang">Duyệt Đơn</span>
+                    }
+                    else if ((int)item.Status == 1)
+                    {
+                        <span class="badge badge-warning text-white">Đang Giao Dịch</span>
+                    }
+                    
+
+
+                </td>
+                <td>
+                    @if ((bool)item.StatusPayment)
+                    {
+
+                        <p class="badge badge-success text-white">Đã Thanh Toán</p>
+                    }
+                    else
+                    {
+                        <p class="badge badge-info text-white">Chờ Thanh Toán</p>
+                    }
+                </td>
+                <td>
+                    @if ((bool)item.StatusInput)
+                    {
+
+                        <p class="badge badge-success text-white">Đã Nhập Hàng</p>
+                    }
+                    else
+                    {
+                        <p class="badge badge-info text-white">Chờ Nhập Hàng</p>
+                    }
+                </td>
+
+                <td>
+                    <a href="#" class="badge badge-success exportNhapHang" data-id="@item.IDNhapHang"> Export </a>
+                    @Ajax.ActionLink(" Xóa", "Delete", new { @id = item.IDNhapHang }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn phiếu nhập này ?",
+                   OnComplete = "$('#row_" + item.IDNhapHang + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger btn-sm far fa-trash-alt" })
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("Duyet", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+
+

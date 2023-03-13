@@ -1,0 +1,163 @@
+﻿@model X.PagedList.IPagedList<Mood.EF2.Orders>
+@using X.PagedList.Mvc;
+@using BaiTapLon.Common;
+@{
+    ViewBag.Title = "DanhSachHang";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    var session = (UserLogin)Session[Constant.USER_SESSION];
+}
+@if (session != null)
+{
+    <main id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <h6 class="font-weight-medium font-size-7 pt-5 pt-lg-8  mb-5 mb-lg-7">Thông tin tài khoản</h6>
+                    <div class="tab-wrapper">
+                        <ul class="my__account-nav nav flex-column mb-0" role="tablist" id="pills-tab">
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0 active" href="tong-quan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Tổng quan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/danh-sach-don-hang-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Đơn hàng</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/tin-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông báo (@session.tolMes)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/phan-hoi-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Phản Hồi (@session.tolRep)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/thong-tin-ca-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông tin cá nhân</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" id="pills-six-example1-tab" data-toggle="pill" href="#pills-six-example1" role="tab" aria-controls="pills-six-example1" aria-selected="false">
+                                    <span class="font-weight-normal text-gray-600">Yêu thích</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/Users/Logout">
+                                    <span class="font-weight-normal text-gray-600">Thoát</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="pt-5 pl-md-5 pt-lg-8 pl-lg-9 space-bottom-lg-2 mb-lg-4">
+                        <h6 class="font-weight-medium font-size-7 ml-lg-1 mb-lg-8 pb-xl-1">Đơn hàng</h6>
+                        @if (Model.Count > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr class="border">
+                                        <th scope="col" class="py-3 border-bottom-0 font-weight-medium pl-3 pl-lg-5">Mã Đơn</th>
+                                        <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Ngày Lập</th>
+                                        <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Trạng Thái</th>
+                                        <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Thanh Toán</th>
+                                        <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Giao Hàng</th>
+                                        <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Hành Động</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="border">
+                                            <th class="pl-3 pl-md-5 font-weight-normal align-middle py-6">#@item.IDOder</th>
+                                            <td class="align-middle py-5">@item.NgayTao</td>
+                                            <td class="align-middle py-5">
+                                                @if (item.Status == 0)
+                                                {
+
+                                                    <span class="badge badge-primary"> Chờ duyệt</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-success"> Đã duyệt</span>
+                                                }
+                                            </td>
+                                            <td class="align-middle py-5">
+                                                @item.DeliveryPaymentMethod
+                                            </td>
+                                            <td class="align-middle py-5">
+                                                @if (item.GiaoHang == 2)
+                                                {
+                                                    if (item.NhanHang == 1)
+                                                    {
+
+                                                        <span class="badge badge-success"> Đã hoàn tất</span>
+                                                    }
+                                                    else if (item.NhanHang == 2)
+                                                    {
+                                                        <span class="badge badge-danger"> Trả Lại</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-info"> Đang Giao Hàng</span>
+                                                    }
+
+                                                }
+                                                else if (item.GiaoHang == 1)
+                                                {
+                                                    <span class="badge badge-warning"> Chờ xuất kho</span>
+                                                }
+                                                else
+                                                {
+
+                                                    if (item.GiaoHang == 0)
+                                                    {
+                                                        <span class="badge badge-primary"> Chờ đóng gói</span>
+                                                    }
+                                                    if (item.GiaoHang == 2)
+                                                    {
+                                                        <span class="badge badge-info"> Đã Xuất Kho</span>
+                                                    }
+
+                                                }
+                                            </td>
+                                            <td class="align-middle py-5">
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="/chi-tiet-don-hang-@item.IDOder" class="btn btn-dark rounded-0 btn-wide font-weight-medium">
+                                                        Xem
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        }else
+                        {
+
+                            <img src="~/DataImage/ic-menu-faq-4.png" width="100" height="100" /><br />
+                            <span>Hiện tại bạn chưa có đơn hàng nào.</span>
+                        }
+                        <nav aria-label="Page navigation example">
+                            @Html.PagedListPager(Model, page => Url.Action("DanhSachHang", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string[] { "pagination pagination__custom justify-content-md-center flex-nowrap flex-md-wrap overflow-auto overflow-md-visble" },
+                        LiElementClasses = new string[] { "flex-shrink-0 flex-md-shrink-1 page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+}

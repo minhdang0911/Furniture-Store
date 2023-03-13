@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "confirm_orderPaymentOnline";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+@{
+    bool status = (bool)ViewBag.status;
+
+}
+<!-- ====== MAIN CONTENT ===== -->
+<main id="content">
+    <div class="container">
+        <div class="space-2 space-md-3 space-lg-4 space-top-xl-6 space-bottom-xl-5">
+
+            @if (status == true)
+            {
+                <span class="alert-success">Thanh toán Online Thành công. Cảm ơn bạn đã mua hàng chúng tôi sẽ liện hệ với bạn để xác nhận đơn.<a class="text-danger" href="~/">Về trang chủ</a></span>
+
+            }
+            else
+            {
+                <span>Thanh toán Online Thất bại Vui lòng thử lại. <a class="text-danger" href="~/">Về trang chủ</a></span>
+
+            }
+
+
+        </div>
+    </div>
+</main>

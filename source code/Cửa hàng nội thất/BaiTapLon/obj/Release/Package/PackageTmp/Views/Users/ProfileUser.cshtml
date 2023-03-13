@@ -1,0 +1,135 @@
+﻿@model Mood.EF2.User
+@using BaiTapLon.Common;
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    var session = (UserLogin)Session[Constant.USER_SESSION];
+}
+@section jsFooter{
+    <script src="~/Content/libs/commonjs/userProfileCommon.js"></script>
+}
+@if (session != null)
+{
+    <main id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <h6 class="font-weight-medium font-size-7 pt-5 pt-lg-8  mb-5 mb-lg-7">Thông tin tài khoản</h6>
+                    <div class="tab-wrapper">
+                        <ul class="my__account-nav nav flex-column mb-0" role="tablist" id="pills-tab">
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0 active" href="/tong-quan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Tổng quan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/danh-sach-don-hang-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Đơn hàng</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/tin-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông báo (@session.tolMes)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/phan-hoi-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Phản Hồi (@session.tolRep)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/thong-tin-ca-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông tin cá nhân</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" id="pills-six-example1-tab" data-toggle="pill" href="#pills-six-example1" role="tab" aria-controls="pills-six-example1" aria-selected="false">
+                                    <span class="font-weight-normal text-gray-600">Yêu thích</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/Users/Logout">
+                                    <span class="font-weight-normal text-gray-600">Thoát</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                        <div class="border-bottom mb-6 pb-6 mb-lg-8 pb-lg-9">
+                            <div class="pt-5 pl-md-5 pt-lg-8 pl-lg-9">
+                                <h6 class="font-weight-medium font-size-7 ml-lg-1 mb-lg-8 pb-xl-1">Thông tin cá nhân</h6>
+                                <div class="font-weight-medium font-size-22 mb-4 pb-xl-1">Sửa thông tin</div>
+                                <form id="ChangeUserProfile">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <div class="js-form-message">
+                                                <label for="exampleFormControlInput1">Họ và tên</label>
+                                                <input type="text" class="form-control rounded-0 pl-3 placeholder-color-3" name="Name" value="@Model.Name">
+                                                <input type="hidden" name="IDUser" value="@Model.IDUser" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <div class="js-form-message">
+                                                <label for="exampleFormControlInput2">Số điện thoại</label>
+                                                <input type="text" class="form-control rounded-0 pl-3 placeholder-color-3" name="Phone" value="@Model.Phone">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <div class="js-form-message">
+                                                <label for="exampleFormControlInput3">Địa chỉ</label>
+                                                <input type="text" class="form-control rounded-0" name="Adress" value="@Model.Adress">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <div class="js-form-message">
+                                                <label for="exampleFormControlInput4">Email</label>
+                                                <input type="email" class="form-control rounded-0" name="Email" value="@Model.Email">
+                                            </div>
+                                        </div>
+                                        <div class="ml-3">
+                                            <a href="javascript:void(0)" onclick="ChangeUserProfile()" class="btn btn-wide btn-dark text-white rounded-0 transition-3d-hover height-60 width-390">Lưu thay đổi</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="pl-md-5 pl-lg-9 space-bottom-2 space-bottom-lg-3">
+                            <div class="font-weight-medium font-size-22 mb-4 pb-xl-1">Đổi mật khẩu</div>
+                            <form id="changePass">
+                                <div class="row">
+                                    <div class="col-md-12 mb-4">
+                                        <div class="js-form-message">
+                                            <label for="exampleFormControlInput5">Mật khẩu hiện tại</label>
+                                            <input type="password" class="form-control rounded-0" name="oldPassWord">
+                                            <input type="hidden" name="IDUser" value="@Model.IDUser" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <div class="js-form-message">
+                                            <label for="exampleFormControlInput6">Mật khẩu mới</label>
+                                            <input type="password" class="form-control rounded-0" name="newPassWorrd">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-5">
+                                        <div class="js-form-message">
+                                            <label for="exampleFormControlInput7">Nhập lại mật khẩu mới</label>
+                                            <input type="password" class="form-control rounded-0" name="confinrmPass">
+                                        </div>
+                                    </div>
+                                    <div class="ml-3">
+                                        <a href="javascript:void(0)" onclick="ChangePass()" class="btn btn-wide btn-dark text-white rounded-0 transition-3d-hover height-60 width-390">Lưu thay đổi</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+    </main>
+}
+<!-- ====== MAIN CONTENT ===== -->
+<!-- ====== END MAIN CONTENT ===== -->

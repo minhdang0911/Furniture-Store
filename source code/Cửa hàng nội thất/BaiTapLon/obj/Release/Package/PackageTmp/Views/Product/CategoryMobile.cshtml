@@ -1,0 +1,146 @@
+﻿@model List<Mood.EF2.Category>
+@using BaiTapLon.Common;
+@{ 
+    var session = (UserLogin)Session[Constant.USER_SESSION];
+    var listMenu = (List<Mood.EF2.Menu>)ViewBag.listMenu;
+    var listAllProduct = (List<Mood.EF2.Sanpham>)ViewBag.getAllProduct;
+}
+<!-- Categories Sidebar Navigation -->
+<aside id="sidebarContent2" class="u-sidebar u-sidebar__md u-sidebar--left" aria-labelledby="sidebarNavToggler2">
+    <div class="u-sidebar__scroller js-scrollbar">
+        <div class="u-sidebar__container">
+            <div class="u-header-sidebar__footer-offset">
+                
+                <!-- Content -->
+                <div class="u-sidebar__body">
+                    <div class="u-sidebar__content u-header-sidebar__content">
+                        <!-- Title -->
+                        <header class="border-bottom px-4 px-md-5 py-4 d-flex align-items-center justify-content-between">
+                            <h2 class="font-size-3 mb-0">DANH MỤC CỬA HÀNG</h2>
+
+                            <!-- Toggle Button Đăng nhập đây nè -->
+                            <div class="d-flex align-items-center">
+                                <button type="button" class="close ml-auto"
+                                        aria-controls="sidebarContent2"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        data-unfold-event="click"
+                                        data-unfold-hide-on-scroll="false"
+                                        data-unfold-target="#sidebarContent2"
+                                        data-unfold-type="css-animation"
+                                        data-unfold-animation-in="fadeInLeft"
+                                        data-unfold-animation-out="fadeOutLeft"
+                                        data-unfold-duration="500">
+                                    <span aria-hidden="true"><i class="fas fa-times ml-2"></i></span>
+                                </button>
+                                
+                            </div>
+
+                            <!-- End Toggle Button -->
+                        </header>
+                        <!-- End Title -->
+
+                        <div class="border-bottom">
+                            <div class="zeynep pt-4">
+                                <ul>
+                                    <li class="has-submenu">
+                                        <a href="/trang-chu" data-submenu="off-pages">Trang chủ</a>
+                                    </li>
+
+                                    @foreach (var item in listMenu)
+                                    {
+                                        <li class="has-submenu">
+                                            <a href="@item.Link" data-submenu="off-pages">@item.NameMenu</a>
+                                        </li>
+                                    }
+
+                                    @foreach (var item in Model)
+                                    {
+                                        var urldanhmuc = "/danh-muc/" + item.MetaTitle + "-" + item.IDCategory;
+                                        <li class="has-submenu">
+                                            <a href="@urldanhmuc" data-submenu="@item.MetaTitle">@item.TenTheloai</a>
+
+                                            <div id="@item.MetaTitle" class="submenu">
+                                                <div class="submenu-header" data-submenu-close="@item.MetaTitle">
+                                                    <a href="@urldanhmuc">@item.TenTheloai</a>
+                                                </div>
+
+                                                <ul>
+                                                    @{ int pause = 1;}
+                                                    @foreach (var inItem in listAllProduct)
+                                                    {
+                                                        var url = "/chi-tiet/" + inItem.MetaTitle + "-" + inItem.IDContent;
+                                                        if (pause != 8)
+                                                        {
+                                                            if (inItem.CategoryID == item.IDCategory)
+                                                            {
+                                                                <li>
+                                                                    <a href="@url">@inItem.Name</a>
+                                                                </li>
+                                                                pause++;
+                                                            }
+                                                        }
+                                                        else { break; }
+                                                    }
+                                                    
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    }
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="px-4 px-md-5 pt-5 pb-4 border-bottom">
+                            <h2 class="font-size-3 mb-3">HỖ TRỢ</h2>
+                            <ul class="list-group list-group-flush list-group-borderless">
+                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Chính sách mua hàng</a></li>
+                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Hỗ trợ</a></li>
+                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Điều khỏan</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="px-4 px-md-5 py-5">
+                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
+                                <option selected>Tiếng Việt (Việt Nam)</option>
+                                
+                            </select>
+                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
+                                <option selected>đ VNĐ</option>
+                                
+                            </select>
+                            <!-- Social Networks -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-facebook-f btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-google btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-twitter btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-github btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Social Networks -->
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
+            </div>
+        </div>
+    </div>
+</aside>
+<!-- End Categories Sidebar Navigation -->

@@ -1,0 +1,34 @@
+﻿@model Mood.EF2.Feed_Back
+
+@{
+    ViewBag.Title = "";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-body">
+            <div class="col-md-12">
+                <h2 class="text-center">Chi Tiết Liên Hệ</h2>
+                <h4 class="text-center">Mã liên hệ: @Model.IDFeedBack</h4>
+                <p>Tên Khách hàng: @Model.Name</p>
+                <p>Địa chỉ: @Model.Address</p>
+                <p>Số điện thoại: @Model.Phone</p>
+                <p>Email: @Model.Email</p>
+                <p>Ngày tạo liên hệ: @Model.CreateDate</p>
+                <p>Tiêu đề: @Model.TieuDe</p>
+                <p>Nội Dung: @Model.Content</p>
+                @if (Model.Status == false)
+                {
+                    <p>Trạng thái: <span class="text-info">Chưa trả lời</span></p>
+                }
+                else
+                {
+                    <p>Trạng thái: <span class="text-success">Đã trả lời</span></p>
+                    <p>Phản hồi: <span class="text-success">@Model.Reply</span></p>
+                    <p>Trả lời bởi: <span class="text-danger">@Model.UpdateBy</span></p>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+D:\Jquery\Do_An\CommomSentMail\bin\Release\CommomSentMail.dll
+D:\Jquery\Do_An\CommomSentMail\bin\Release\CommomSentMail.pdb
+D:\Jquery\Do_An\CommomSentMail\obj\Release\CommomSentMail.dll
+D:\Jquery\Do_An\CommomSentMail\obj\Release\CommomSentMail.pdb

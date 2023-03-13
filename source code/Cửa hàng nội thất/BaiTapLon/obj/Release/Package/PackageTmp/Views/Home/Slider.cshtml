@@ -1,0 +1,112 @@
+﻿@{ 
+    var listSlider = (List<Mood.EF2.Slide>)ViewBag.slides;
+}
+
+<!-- Slider-->
+<div class="bg-img-hero img-fluid" style="background-image: url(/assets/img/1920x600/img1.jpg);">
+    <div class="px-3 px-lg-10 py-3 py-lg-10 space-top-xl-3 space-bottom-xl-1">
+        <div class="js-slick-carousel u-slick" data-autoplay="true"
+             data-autoplay-speed="5000" data-pagi-classes="text-center u-slick__pagination u-slick__pagination mb-0 mt-5" 
+             data-arrows-classes="d-none d-lg-block u-slick__arrow u-slick__arrow--v2 u-slick__arrow-centered--y" 
+             data-arrow-left-classes="flaticon-back u-slick__arrow-inner u-slick__arrow-inner--left ml-lg-n9 ml-xl-n10" 
+             data-arrow-right-classes="flaticon-next u-slick__arrow-inner u-slick__arrow-inner--right mr-lg-n9 mr-xl-n10">
+
+
+            @foreach (var item in listSlider)
+            {
+                <div class="pt-xl-3">
+                    <div class="row ml-plus-310">
+                        <div class="col-lg-7 col-wd-6">
+                            <div class="media d-block d-lg-flex">
+                                <div class="media-body align-self-center mb-4 mb-lg-0">
+                                    <p class="banner__pretitle text-uppercase text-gray-400 font-weight-bold mb-2"
+                                       data-scs-animation-in="fadeInUp"
+                                       data-scs-animation-delay="200">Bìa Mềm</p>
+                                    <h2 class="font-size-12 mb-1"
+                                        data-scs-animation-in="fadeInUp"
+                                        data-scs-animation-delay="300">
+                                        <span class="hero__title-line-1 font-weight-regular d-block">@item.Title</span>
+                                        <span class="hero__title-line-2 font-weight-bold d-block">Tháng 12</span>
+                                    </h2>
+                                    <div class="font-size-2 text-secondary-gray-700"
+                                         data-scs-animation-in="fadeInUp"
+                                         data-scs-animation-delay="300">Giảm Giá</div>
+                                    <div class="font-size-26 font-weight-medium text-primary mb-2" data-scs-animation-in="fadeInUp"
+                                         data-scs-animation-delay="300">40% Tại Cửa Hàng</div>
+                                    <div>
+                                        <a href="../shop/v5.html" class="banner_btn btn btn-wide btn-dark rounded-0 text-white"
+                                           data-scs-animation-in="fadeInLeft"
+                                           data-scs-animation-delay="400">Mua Ngay</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-wd-6"
+                             data-scs-animation-in="fadeInRight"
+                             data-scs-animation-delay="500">
+                            <img src="@item.Image" class="img-fluid" alt="image-description">
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!-- End Slider-->
+<!-- Tiêu Đề thanh toán-->
+<div class="site-features border-bottom space-1d625">
+    <div class="container">
+        <ul class="list-unstyled my-0 list-features d-md-flex align-items-center justify-content-between">
+            <li class="list-feature">
+                <div class="media d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                    <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                        <i class="glyph-icon flaticon-delivery"></i>
+                    </div>
+                    <div class="media-body ml-xl-4">
+                        <h4 class="feature__title font-size-3 text-dark">Miễn phí giao</h4>
+                        <p class="feature__subtitle m-0 text-dark">Đơn hàng trên 200k</p>
+                    </div>
+                </div>
+            </li>
+            <li class="separator border-xl-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+            <li class="list-feature">
+                <div class="media  d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                    <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                        <i class="glyph-icon flaticon-credit"></i>
+                    </div>
+                    <div class="media-body ml-xl-4">
+                        <h4 class="feature__title font-size-3 text-dark">Thanh toán an toàn</h4>
+                        <p class="feature__subtitle m-0 text-dark">Thanh toán an toàn 100%</p>
+                    </div>
+                </div>
+            </li>
+            <li class="separator border-xl-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+            <li class="list-feature">
+                <div class="media  d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                    <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                        <i class="glyph-icon flaticon-warranty"></i>
+                    </div>
+                    <div class="media-body ml-xl-4">
+                        <h4 class="feature__title font-size-3 text-dark">Đảm bảo hoàn tiền</h4>
+                        <p class="feature__subtitle m-0 text-dark">Trong vòng 30 ngày</p>
+                    </div>
+                </div>
+            </li>
+            <li class="separator border-xl-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+            <li class="list-feature">
+                <div class="media d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                    <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                        <i class="glyph-icon flaticon-help"></i>
+                    </div>
+                    <div class="media-body ml-xl-4">
+                        <h4 class="feature__title font-size-3 text-dark">Hỗ trợ 24/7</h4>
+                        <p class="feature__subtitle m-0 text-dark">Trong vòng 1 ngày làm việc</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- END Tiêu Đề thanh toán-->
+

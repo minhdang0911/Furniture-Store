@@ -1,0 +1,113 @@
+﻿@model Mood.EF2.Feed_Back
+
+@{
+    ViewBag.Title = "Trả lời liên hệ";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm("Reply", "FeedBack", FormMethod.Post))
+{
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-9">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.IDFeedBack)
+                        @Html.HiddenFor(model => model.UpdateBy)
+                        @Html.HiddenFor(model => model.Status)
+                        <div class="form-group">
+                            <!--False khi nó nhận lỗi trả về là false mới báo-->
+
+                            @Html.ValidationMessage("userLogin", new { @class = "text-danger" })
+
+                            @if (ViewBag.Success != null)
+                            {
+                                <div class="alert alert-success">@ViewBag.Success</div>
+                            }
+                            @if (ViewBag.Error != null)
+                            {
+                                <div class="alert alert-danger">@ViewBag.Error</div>
+                            }
+                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                            <!--Nhớ cái này nó mới có id khi post-->
+
+
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Tiêu đề liên hệ", htmlAttributes: new { @class = "control-label  col-12" })
+                            <div class="">
+                                @Html.EditorFor(model => model.TieuDe, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.TieuDe, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.Label("Nội dung phản hồi", htmlAttributes: new { @class = "control-label col-12" })
+                            <div class="">
+                                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @rows = 3, @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Trả lời", htmlAttributes: new { @class = "control-label  col-12" })
+                            <div class="">
+                                @if (Model != null)
+                                {
+                                    if (Model.Status == true)
+                                    {
+                                        @Html.TextAreaFor(model => model.Reply, new { @class = "form-control", @rows = 5, @readonly = "readonly" }) }
+                                    else
+                                    {
+                                        @Html.TextAreaFor(model => model.Reply, new { @class = "form-control", @rows = 5 })}
+
+                                }
+                                else
+                                {
+                                    @Html.TextAreaFor(model => model.Reply, new { @class = "form-control", @rows = 5, @readonly = "readonly" }) 
+                                }
+
+                                @Html.ValidationMessageFor(model => model.Reply, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <div class="form-group">
+                            @Html.Label("Họ và tên", htmlAttributes: new { @class = "control-label  col-12" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Email", htmlAttributes: new { @class = "control-label  col-12" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Số điện thoại", htmlAttributes: new { @class = "control-label  col-12" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                           
+                            <div class="">
+                               <input type="submit" class="btn btn-success" value="Trả lời"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

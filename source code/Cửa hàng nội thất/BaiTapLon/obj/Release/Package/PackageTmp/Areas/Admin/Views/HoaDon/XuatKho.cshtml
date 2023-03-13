@@ -1,0 +1,135 @@
+﻿
+@model X.PagedList.IPagedList<Mood.EF2.Orders>
+@using X.PagedList.Mvc;
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý hóa đơn hoàn thành</li>
+</ol>
+@section jsFooter{
+    
+<link href="~/Content/libs/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Content/libs/commonjs/dongGoiController.js"></script>
+    }
+@using (Html.BeginForm("XuatKho", "HoaDon", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+        </div>
+        <div class="col-md-2"><button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-search"></i> Tìm kiếm</button></div>
+        <!---
+            <br />
+        <br />
+        <div class="col-md-12">
+            <a href="/Admin/HoaDon/XacNhan" class="btn btn-default col-md-3">Xác Nhận</a>
+            <a href="/Admin/HoaDon/ChoGiao" class="btn btn-default col-md-3">Giao Hàng</a>
+            <a href="/Admin/HoaDon/HoanThanh" class="btn btn-primary col-md-3">Hoàn Thành</a>
+            <a href="/Admin/HoaDon/TraLai" class="btn btn-default col-md-2">Trả Lại</a>
+        </div>-->
+    </div>
+}
+<br />
+<ul class="bs4-order-tracking">
+    <li class="step active">
+        <div><i class="fas fa-user"></i></div> <a href="/Admin/HoaDon/XacNhan">Duyệt Đơn</a>
+    </li>
+    <li class="step active">
+        <div><i class="fas fa-bread-slice"></i></div><a href="/Admin/HoaDon/DongGoi">Đóng Gói</a>
+    </li>
+    <li class="step active">
+        <div><i class="fas fa-truck"></i></div> <a href="/Admin/HoaDon/XuatKho">Xuất Kho</a>
+    </li>
+    <li class="step">
+        <div><i class="fas fa-birthday-cake"></i></div> <a href="/Admin/HoaDon/HoanThanh">Hoàn Thành</a>
+    </li>
+
+</ul>
+<p class="text-center"><b>Hướng Dẫn:</b> Bạn click vào <span class="badge badge-warning">Xuất Kho</span> để bắt đầu giao hàng.</p>
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Mã hóa đơn</th>
+            <th>Tên Khách Hàng</th>
+            <th>Địa Chỉ Nhận</th>
+            <th>Email</th>
+            <th>Số Điện Thoại</th>
+            <th>Ngày Tạo</th>
+            <th>Phương Thức</th>
+            <th>Giao Hàng</th>
+
+            <th>Xuất Kho</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+
+            <tr id="row_@item.IDOder">
+
+                <td>@item.IDOder</td>
+                <td>@item.ShipName</td>
+                <td>@item.ShipAddress</td>
+                <td>@item.ShipEmail</td>
+                <td>@item.ShipMobile</td>
+                <td>@item.NgayTao</td>
+                <td>
+                    @if (item.DeliveryPaymentMethod.Equals("COD"))
+                    {
+                        <div class="text-info">COD</div>
+                    }
+                    else
+                    {
+                        <div class="text-danger">MOMO</div>
+                    }
+                </td>
+                <td>
+                    @if (item.GiaoHang == 1 && item.NhanHang ==0)
+                    {
+                        <div id="btn-active-change" class="badge badge-primary">Chờ xuất kho</div>
+                    }
+
+                </td>
+
+
+
+                <td><a href="/Admin/HoaDon/Details/@item.IDOder" class="badge badge-warning"> Xuất Kho </a></td>
+                <td>
+                    <a href="#" class="buttonExport badge badge-success" data-id="@item.IDOder"> Export </a>
+                    @Ajax.ActionLink(" ", "Delete", new { @id = item.IDOder }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa hóa đơn này?",
+                   OnComplete = "$('#row_" + item.IDOder + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "badge badge-danger far fa-trash-alt" })
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("XuatKho", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+<!--
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <a href="/Admin/User/Create" class="btn btn-success">Thêm người dùng</a>
+    </div>
+</div>  -->

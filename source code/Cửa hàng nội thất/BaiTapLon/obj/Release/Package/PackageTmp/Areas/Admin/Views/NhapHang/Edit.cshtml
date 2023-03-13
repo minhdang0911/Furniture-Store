@@ -1,0 +1,100 @@
+﻿@model Mood.NhapHangModel.NhapHangModelView
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "NhapHang", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IDNhapHang)
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Cập Nhật Kho Hàng</h1>
+                    </div>
+                    <div class="col-6">
+                        <div class="float-right pt-1">
+                            <input type="submit" value="Nhập Vào Kho và Thanh Toán" class="btn btn-primary btn-sm" />
+                            <button type="button" class="btn btn-danger btn-sm">
+                                <a href="/Admin/NhapHang/HoanThanh" class="text-white"><i class="fas fa-arrow-circle-left"></i>&nbsp; Trở về</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+
+                        <div class="col-9">
+                            <div class="form-group">
+                                <!--False khi nó nhận lỗi trả về là false mới báo-->
+                                @Html.ValidationMessage("nhaphang", new { @class = "text-danger" })
+                                @Html.ValidationMessage("nhaphangSuccess", new { @class = "text-success" })
+
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Tên sản phẩm", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Tác giả", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.TacGia, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Nhà xuất bản", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.NhaXuatBan, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Giá Nhập", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.GiaNhap, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @type = "number" } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-12">Nhập Vào Kho <span class="text-danger">(*)</span></label>
+                                <div class="">
+                                    @Html.EditorFor(model => model.SoluongMoi, new { htmlAttributes = new { @class = "form-control", @type = "number", @readonly = "readonly" } })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-12">Thanh Toán <span class="text-danger">(*)</span></label>
+                                <select class="form-control" name="payment">
+                                        <option value="1">Trả Tiền Mặt</option>
+                                        <option value="2">Quẹt Thẻ</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

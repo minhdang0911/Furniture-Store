@@ -1,0 +1,208 @@
+﻿@model Mood.EF2.Orders
+@using X.PagedList.Mvc;
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var hoaDonSanPham = (X.PagedList.IPagedList<Mood.HoaDonModel.ChiTietHoaDon>)ViewBag.hoaDonSanPham;
+    var total = ViewBag.total;
+
+}
+
+@section jsFooter{
+    <style>
+        span {
+            cursor: pointer;
+        }
+    </style>
+    <link href="~/Content/libs/toastr/toastr.css" rel="stylesheet" />
+
+    <script src="~/Content/libs/commonjs/dongGoiController.js"></script>
+}
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-body">
+            <div class="col-md-12">
+                <h2 class="text-center">Chi Tiết Hóa Đơn</h2>
+                <h4 class="text-center">Mã hóa đơn: @Model.IDOder</h4>
+                <p>Tên Khách hàng: @Model.ShipName</p>
+                <p>Địa chỉ nhận: @Model.ShipAddress</p>
+                <p>Số điện thoại: @Model.ShipMobile</p>
+                <p>Email: @Model.ShipEmail</p>
+                <p>Ngày lập hóa đơn: @Model.NgayTao</p>
+                <p>Tổng hóa đơn thanh toán: @total.ToString("N0") VNĐ</p>
+                @if (Model.DeliveryPaymentMethod.Equals("COD"))
+                {
+                    <p>Phương thức thanh toán:<span class="text-primary"> COD</span></p>
+                }
+                else if(Model.DeliveryPaymentMethod.Equals("ATM"))
+                {
+                    <p>Phương thức thanh toán:<span class="text-success"> ATM</span></p>
+
+                }
+                else if (Model.DeliveryPaymentMethod.Equals("Ngân Lượng"))
+                {
+                <p>Phương thức thanh toán:<span class="text-success"> Ví Ngân Lượng</span></p>
+
+                }
+                else
+                {
+                    <p>Phương thức thanh toán:<span class="text-danger"> MOMO</span></p>
+
+                }
+                @if (Model.Status == 0)
+                {
+
+                    <p>Trạng thái: <span class="badge badge-primary"> Chờ duyệt</span></p>
+                }
+                else
+                {
+                    <p>Trạng thái: <span class="badge badge-success"> Đã duyệt</span></p>
+                }
+                
+
+                @if (Model.GiaoHang == 2)
+                {
+                    if (Model.NhanHang == 1)
+                    {
+
+                        <p>Giao Hàng: <span class="badge badge-success"> Đã hoàn tất</span></p>
+                    }
+                    else if (Model.NhanHang == 2)
+                    {
+                        <p>Giao Hàng: <span class="badge badge-danger"> Trả Lại</span></p>
+                    }
+                    else
+                    {
+                        <p>Giao Hàng: <span class="badge badge-primary"> Đang Giao Hàng</span></p>
+                    }
+
+                }
+                else if (Model.GiaoHang == 1)
+                {
+                    <p>Giao Hàng: <span class="badge badge-warning"> Chờ xuất kho</span></p>
+                }
+                else
+                {
+
+                    if (Model.GiaoHang == 0)
+                    {
+                        <p>Giao Hàng: <span class="badge badge-primary"> Chờ đóng gói</span></p>
+                    }
+                    if (Model.GiaoHang == 2)
+                    {
+                        <p>Giao Hàng: <span class="badge badge-primary"> Đã Xuất Kho</span></p>
+                    }
+
+                }
+                @if (Model.ghiChu != null && Model.NhanHang == 2)
+                {
+                    <p>Ghi chú: @Model.ghiChu</p>
+                }
+                <br />
+
+                <!--
+
+                    <div class="row">
+                    <div class="col-md-6">
+                        <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+                    </div>
+                    <button type="submit" class="btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+
+                </div>
+                -->
+                @if (Model.GiaoHang == 0 && Model.Status == 1)
+                {
+                    <span class="btn-info btn-sm col-md-5" id="spanDongGoi" data-id="@Model.IDOder">Đóng Gói Và Giao Hàng</span>
+                    <span class="btn-info btn-sm col-md-5" id="spanIn">In Hóa Đơn</span>
+                    <br />
+                }
+                
+                @if (Model.GiaoHang == 1 && Model.NhanHang == 0)
+                {
+                    <span class="btn-warning btn-sm col-md-5" id="spanXuatKho" data-id="@Model.IDOder">Xuất Kho</span>
+                    <span class="btn-info btn-sm col-md-5" id="spanIn">In Hóa Đơn</span>
+                    <br />
+                }
+
+                <br />
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <tr class="text-center">
+
+                            <th>Tên Sản Phẩm</th>
+                            <th>Giá Tiền</th>
+                            <th>Số Lượng</th>
+
+                            <th>Ngày lập hóa đơn</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @foreach (var item in hoaDonSanPham)
+                        {
+
+                            <tr id="row_@item.OderID">
+
+                                <td>@item.Name</td>
+                                <td>@item.Price</td>
+                                <td>@item.Quanlity</td>
+
+                                <td>@item.NgayTao</td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+
+                </table>
+                <!--Ngay dưới table là hiện thị thông tin trang-->
+                
+                @Html.PagedListPager(hoaDonSanPham, page => Url.Action("Details", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div>
+    @if (Model.Status == 0)
+    {
+        @Html.ActionLink("Quay lại", "XacNhan")
+    }
+
+    @if (Model.GiaoHang == 0 && Model.Status == 1)
+    {
+
+        @Html.ActionLink("Quay lại", "DongGoi")
+    }
+    @if (Model.GiaoHang == 1 && Model.Status == 1 && Model.NhanHang != 2)
+    {
+
+        if (Model.NhanHang == 1)
+        {
+            @Html.ActionLink("Quay lại", "HoanThanh")
+        }
+
+        else
+        {
+            @Html.ActionLink("Quay lại", "HoanThanh")
+        }
+    }
+
+    @if (Model.GiaoHang == 1 && Model.Status == 1 && Model.NhanHang == 2)
+    {
+
+        if (Model.NhanHang == 2)
+        {
+            @Html.ActionLink("Quay lại", "TraLai")
+        }
+
+    }
+</div>

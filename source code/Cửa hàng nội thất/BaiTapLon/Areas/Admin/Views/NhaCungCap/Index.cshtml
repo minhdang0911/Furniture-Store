@@ -1,0 +1,88 @@
+﻿
+@model X.PagedList.IPagedList<Mood.NhaCungCapModel.NhaCungCapModelView>
+@using X.PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh Sách Nhà Cung Cấp";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý nhà cung cấp</li>
+</ol>
+@using (Html.BeginForm("Index", "NhaCungCap", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="searchString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+        </div>
+        <button type="submit" class="btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+        <div class="col-md-2">
+            <a href="/Admin/NhaCungCap/Create" class="btn btn-success"><i class="fas fa-plus"></i> Thêm nhà cung cấp</a>
+        </div>
+    </div>
+}
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Tên Nhà Cung Cấp</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Người Tạo</th>
+            <th>Ngày Tạo</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IDNCC">
+                <td>@item.TenNCC</td>
+                <td>@item.DiaChi</td>
+                <td>@item.SoDienThoai</td>
+                <td>@item.Email</td>
+                <td>@item.NguoiTao</td>
+                <td>@item.NgayTao</td>
+                <td>
+                    @if (item.Status)
+                    {
+                        <i class="fas fa-lock-open"></i>
+                        <p>Hoạt động</p>
+                    }
+                    else
+                    {
+                        <i class="fas fa-lock"></i>
+                        <p>Đã khóa</p>
+                    }
+
+                </td>
+                <td>
+                    <a href="/Admin/NhaCungCap/Edit/@item.IDNCC" class="btn btn-info btn-sm"><i class="fas fa-user-edit"></i> Sửa </a>
+                    @Ajax.ActionLink(" Xóa", "Delete", new { @id = item.IDNCC }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa thể loại này?",
+                   OnComplete = "$('#row_" + item.IDNCC + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger btn-sm far fa-trash-alt" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+
+

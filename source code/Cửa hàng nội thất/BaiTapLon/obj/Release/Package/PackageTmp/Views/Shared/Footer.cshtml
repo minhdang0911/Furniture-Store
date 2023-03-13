@@ -1,0 +1,179 @@
+﻿@model Mood.EF2.Footer
+@{
+    var listCategory = (List<Mood.EF2.Category>)ViewBag.categoryFooter;
+}
+<footer>
+    <div class="border-top space-top-3">
+        <div class="border-bottom pb-5 space-bottom-lg-3">
+            <div class="container">
+                <!-- Newsletter -->
+                <div class="space-bottom-2 space-bottom-md-3">
+                    <div class="text-center mb-5">
+                        <h5 class="font-size-7 font-weight-medium">Theo dõi tin về chúng tôi</h5>
+                        <p class="text-gray-700">Theo dõi tin tức về các cuốn sách mới nhât, và thịnh hành ngay bây giờ.</p>
+                    </div>
+                    <!-- Form Group -->
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-5 mb-3 mb-md-2">
+                            <div class="js-form-message">
+                                <div class="input-group">
+                                    <input type="text" class="form-control px-5 height-60 border-dark" name="name" id="signupSrName" placeholder="Đăng ký nhận tin từ chúng tôi...." aria-label="Your name" required="" data-msg="Name must contain only letters." data-error-class="u-has-error" data-success-class="u-has-success">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 ml-md-2">
+                            <button type="submit" class="btn btn-dark rounded-0 btn-wide py-3 font-weight-medium">
+                                Nhận Tin Ngay
+                            </button>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                </div>
+                <!-- End  Newsletter -->
+                <div class="row">
+                    <div class="col-lg-4 mb-6 mb-lg-0">
+                        <div class="pb-6">
+                            <a href="/trang-chu" class="d-inline-block mb-5">
+                                <img src="~/assets/img/imgbook/anhlogo.jpg" alt="logo" width="170" height="50" />
+                            </a>
+                            <address class="font-size-2 mb-5">
+                                <span class="mb-2 font-weight-normal text-dark">
+                                    Địa chỉ: 100 Nguyễn Bình, TT. Đông Triều, tx. Đông Triều <br> Quảng Ninh, Việt Nam
+                                </span>
+                            </address>
+                            <div class="mb-4">
+                                <a href="mailto:sale@bookworm.com" class="font-size-2 d-block link-black-100 mb-1">Email: dongtrieubookstore@gmail.com</a>
+                                <a href="tel:+1246-345-0695" class="font-size-2 d-block link-black-100">Số điện thoại: +84 2033670029</a>
+                            </div>
+                            <ul class="list-unstyled mb-0 d-flex">
+                                <li class="btn pl-0">
+                                    <a class="link-black-100" href="#">
+                                        <span class="fab fa-instagram"></span>
+                                    </a>
+                                </li>
+                                <li class="btn">
+                                    <a class="link-black-100" href="#">
+                                        <span class="fab fa-facebook-f"></span>
+                                    </a>
+                                </li>
+                                <li class="btn">
+                                    <a class="link-black-100" href="#">
+                                        <span class="fab fa-youtube"></span>
+                                    </a>
+                                </li>
+                                <li class="btn">
+                                    <a class="link-black-100" href="#">
+                                        <span class="fab fa-twitter"></span>
+                                    </a>
+                                </li>
+                                <li class="btn">
+                                    <a class="link-black-100" href="#">
+                                        <span class="fab fa-pinterest"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 mb-6 mb-lg-0">
+                        <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Khám Phá</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="pb-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="/gioi-thieu">Giới Thiệu</a>
+                            </li>
+                            <li class="py-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="/Lien-He">Trợ Giúp</a>
+                            </li>
+                            <li class="py-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="/Lien-He">Tìm đường</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 mb-6 mb-lg-0">
+                        <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Dịch vụ khách hàng</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="pb-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="/Lien-He">Trung tâm trợ giúp</a>
+                            </li>
+                            <li class="py-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="#">Thu hồi sản phẩm</a>
+                            </li>
+                            <li class="py-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="#">Điều khoản</a>
+                            </li>
+                            <li class="py-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="#">Hỗ trợ mua hàng</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 mb-6 mb-lg-0">
+                        <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Chính sách</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="pb-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="#">Chính sách hoàn trả</a>
+                            </li>
+                            <li class="py-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="#">Điều khoản sử dụng</a>
+                            </li>
+                            <li class="py-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="#">Bảo vệ</a>
+                            </li>
+                            <li class="pt-2">
+                                <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="#">Riêng tư</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 mb-6 mb-lg-0">
+                        <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Danh mục</h4>
+                        <ul class="list-unstyled mb-0">
+                            @foreach (var item in listCategory)
+                            {
+                                var url = "/danh-muc/" + item.MetaTitle+"-"+item.IDCategory;
+                                <li class="pb-2">
+                                    <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="@url">@item.TenTheloai</a>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-1">
+            <div class="container">
+                <div class="d-lg-flex text-center text-lg-left justify-content-between align-items-center">
+                    <!-- Copyright -->
+                    <p class="mb-3 mb-lg-0 font-size-2">©2021 Dong Trieu Book Store. Đã đăng ký bản quyền</p>
+                    <!-- End Copyright -->
+
+                    <div class="ml-auto d-lg-flex align-items-center">
+                        <div class="mb-4 mb-lg-0 mr-5">
+                            <img class="img-fluid" src="../../assets/img/324x38/img1.png" alt="Image-Description">
+                        </div>
+
+                        <!-- Select -->
+                        <select class="js-select selectpicker dropdown-select mb-3 mb-lg-0"
+                                data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
+                                data-dropdown-align-right="true">
+                            <option value="one" selected>Tiếng Việt(VN)</option>
+                            
+                            
+                        </select>
+                        <!-- End Select -->
+                        <!-- Select -->
+                        <select class="js-select selectpicker dropdown-select ml-md-3"
+                                data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
+                                data-dropdown-align-right="true"
+                                data-width="fit">
+                            <option value="one" selected>đ VNĐ</option>
+                           
+                            
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+

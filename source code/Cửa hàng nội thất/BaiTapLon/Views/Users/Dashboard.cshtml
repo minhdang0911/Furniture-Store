@@ -1,0 +1,139 @@
+﻿
+@{
+    
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+@model Mood.EF2.User
+@using BaiTapLon.Common;
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    var session = (UserLogin)Session[Constant.USER_SESSION];
+}
+@section jsFooter{
+    <script src="~/Content/libs/commonjs/userProfileCommon.js"></script>
+}
+@if (session != null)
+{
+    <main id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <h6 class="font-weight-medium font-size-7 pt-5 pt-lg-8  mb-5 mb-lg-7">Thông tin tài khoản</h6>
+                    <div class="tab-wrapper">
+                        <ul class="my__account-nav nav flex-column mb-0" role="tablist" id="pills-tab">
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0 active" href="tong-quan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Tổng quan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/danh-sach-don-hang-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Đơn hàng</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/tin-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông báo (@session.tolMes)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/phan-hoi-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Phản Hồi (@session.tolRep)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/thong-tin-ca-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông tin cá nhân</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" id="pills-six-example1-tab" data-toggle="pill" href="#pills-six-example1" role="tab" aria-controls="pills-six-example1" aria-selected="false">
+                                    <span class="font-weight-normal text-gray-600">Yêu thích</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/Users/Logout">
+                                    <span class="font-weight-normal text-gray-600">Thoát</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-one-example1" role="tabpanel" aria-labelledby="pills-one-example1-tab">
+                            <div class="pt-5 pt-lg-8 pl-md-5 pl-lg-9 space-bottom-2 space-bottom-lg-3 mb-xl-1">
+                                <h6 class="font-weight-medium font-size-7 ml-lg-1 mb-lg-8 pb-xl-1">Trang tổng quan</h6>
+                                <div class="ml-lg-1 mb-4">
+                                    <span class="font-size-22">Xin Chào @session.name</span>
+                                    <span class="font-size-2">(<a class="link-black-100" href="/Users/Logout">Đăng Xuất</a>)</span>
+                                </div>
+                                <div class="mb-4">
+                                    <p class="mb-0 font-size-2 ml-lg-1 text-gray-600">Từ trang tổng quan tài khoản của mình, bạn có thể xem các <span class="text-dark">đơn đặt hàng gần đây,</span> quản lý <span class="text-dark">địa chỉ giao hàng và thanh toán,</span> cũng như chỉnh sửa <span class="text-dark">mật khẩu và chi tiết tài khoản của mình.</span></p>
+                                </div>
+                                <div class="row no-gutters row-cols-1 row-cols-md-2 row-cols-lg-3">
+                                    <div class="col">
+                                        <div class="border py-6 text-center">
+                                            <a href="/danh-sach-don-hang-@session.userId" class="btn bg-gray-200 rounded-circle px-4 mb-2">
+                                                <span class="flaticon-order font-size-10 btn-icon__inner text-primary"></span>
+                                            </a>
+                                            <div class="font-size-3 mb-xl-1">Đơn Hàng</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="border border-left-0 py-6 text-center">
+                                            <a href="/tin-nhan-@session.userId" class="btn bg-gray-200 rounded-circle px-4 mb-2">
+                                                <span class="flaticon-phone font-size-10 btn-icon__inner text-primary"></span>
+                                            </a>
+                                            <div class="font-size-3 mb-xl-1">Thông Báo (@session.tolMes)</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="border border-left-0 py-6 text-center">
+                                            <a href="/phan-hoi-@session.userId" class="btn bg-gray-200 rounded-circle px-4 mb-2">
+                                                <span class="flaticon-help font-size-10 btn-icon__inner text-primary"></span>
+                                            </a>
+                                            <div class="font-size-3 mb-xl-1">Phản Hồi (@session.tolRep)</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="border py-6 text-center">
+                                            <a href="/thong-tin-ca-nhan-@session.userId" class="btn bg-gray-200 rounded-circle px-4 mb-2">
+                                                <span class="flaticon-user-1 font-size-10 btn-icon__inner text-primary"></span>
+                                            </a>
+                                            <div class="font-size-3 mb-xl-1">Thông tin cá nhân</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="border border-left-0 py-6 text-center">
+                                            <a href="#" class="btn bg-gray-200  rounded-circle px-4 mb-2">
+                                                <span class="flaticon-heart font-size-10 btn-icon__inner text-primary"></span>
+                                            </a>
+                                            <div class="font-size-3 mb-xl-1">Yêu Thích</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="border border-left-0 py-6 text-center">
+                                            <a href="/Users/Logout" class="btn bg-gray-200 rounded-circle px-4 mb-2">
+                                                <span class="flaticon-exit font-size-10 btn-icon__inner text-primary"></span>
+                                            </a>
+                                            <div class="font-size-3 mb-xl-1">Thoát</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+}
+<!-- ====== MAIN CONTENT ===== -->
+<!-- ====== END MAIN CONTENT ===== -->
+

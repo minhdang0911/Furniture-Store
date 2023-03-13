@@ -1,0 +1,60 @@
+﻿@model Mood.EF2.Orders
+
+@{
+    ViewBag.Title = "Thêm ghi chú";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var total = ViewBag.soTien;
+}
+
+
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-body">
+            <div class="col-md-12">
+
+                
+                <br />
+                @using (Html.BeginForm("GhiChu", "HoaDon", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <!--False khi nó nhận lỗi trả về là false mới báo-->
+                        @Html.ValidationMessage("ghiChu", new { @class = "text-danger" })
+                        @Html.ValidationMessage("ghiChuSuccess", new { @class = "text-success" })
+                        @Html.HiddenFor(model => model.IDOder)
+                        @Html.HiddenFor(model => model.ShipName)
+                        @Html.HiddenFor(model => model.ShipEmail)
+                        @Html.HiddenFor(model => model.ShipMobile)
+                        @Html.HiddenFor(model => model.NgayTao)
+                        @Html.HiddenFor(model => model.NhanHang)
+                        @Html.HiddenFor(model => model.Status)
+                        @Html.HiddenFor(model => model.CustomerID)
+                        @Html.HiddenFor(model => model.GiaoHang)
+                    </div>
+                    
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ghiChu, htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.EditorFor(model => model.ghiChu ,new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+
+                        
+
+                        
+
+
+                        <div class="form-group text-center">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Thêm ghi chú" class="btn btn-success" />
+                            </div>
+                        </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "TraLai")
+</div>

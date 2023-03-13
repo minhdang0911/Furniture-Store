@@ -1,0 +1,121 @@
+﻿@model Mood.EF2.Feed_Back
+
+@{
+    ViewBag.Title = "ChiTietLienHe";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+
+
+<!-- ====== MAIN CONTENT ===== -->
+<main id="content">
+    <div class="bg-gray-200 space-bottom-3">
+        <div class="container">
+            <div class="py-5 py-lg-7">
+                <h6 class="font-weight-medium font-size-7 text-center mt-lg-1">Phiếu phản hồi</h6>
+            </div>
+            <div class="max-width-890 mx-auto">
+                <div class="bg-white pt-6 border">
+                    <h6 class="font-size-3 font-weight-medium text-center mb-4 pb-xl-1"></h6>
+                    <div class="border-bottom mb-5 pb-5 overflow-auto overflow-md-visible">
+                        <div class="pl-3">
+                            <table class="table table-borderless mb-0 ml-1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="font-size-2 font-weight-normal py-0">Mã phiếu:</th>
+                                        <th scope="col" class="font-size-2 font-weight-normal py-0">Ngày lập:</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" class="pr-0 py-0 font-weight-medium">#@Model.IDFeedBack</th>
+                                        <td class="pr-0 py-0 font-weight-medium">
+                                            @if (Model.UpdateDate != null)
+                                            {
+                                                @Model.UpdateDate
+                                            }
+                                            else{
+                                                @Model.CreateDate
+                                            }
+
+                                               
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="border-bottom mb-5 pb-6">
+                        <div class="px-3 px-md-4">
+                            <div class="ml-md-2">
+                                <h6 class="font-size-3 on-weight-medium mb-4 pb-1">
+                                    @if (Model.Reply != null)
+                                    {
+                                        <span>Nội dung phản hồi</span>
+                                    }
+                                    @if (Model.Reply == null)
+                                    {
+                                        <span>Câu hỏi</span>
+                                    }
+                                </h6>
+                                <div class="d-flex justify-content-between mb-4">
+                                    @if (Model.Reply != null)
+                                    {
+                                        <span>@Model.Reply</span>
+                                    }
+                                    @if (Model.Reply == null)
+                                    {
+                                        <span>@Model.Content</span>
+                                    }
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-bottom mb-5 pb-5">
+                        <ul class="list-unstyled px-3 pl-md-5 pr-md-4 mb-0">
+                            <li class="d-flex justify-content-between py-2">
+                                <span class="font-weight-medium font-size-2">Người Gửi:</span>
+                                <span class="font-weight-medium font-size-2">
+                                    @if (Model.UpdateBy != null)
+                                    {
+                                        <span class="badge badge-secondary"> @Model.UpdateBy</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-info"> System</span>
+                                    }
+                                </span>
+                            </li>
+                            <li class="d-flex justify-content-between py-2">
+                                <span class="font-weight-medium font-size-2">Trạng Thái:</span>
+                                <span class="font-weight-medium font-size-2">
+                                    @if (Model.Status == false)
+                                    {
+
+                                        <span class="badge badge-primary"> Chờ duyệt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-success"> Đã duyệt</span>
+                                    }
+
+
+                                    
+                                </span>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- ====== END MAIN CONTENT ===== -->

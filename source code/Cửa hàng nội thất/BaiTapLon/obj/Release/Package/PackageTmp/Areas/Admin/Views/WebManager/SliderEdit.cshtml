@@ -1,0 +1,102 @@
+﻿@model Mood.EF2.Slide
+
+@{
+   
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section jsFooter{
+    <script>
+        $(document).ready(function () {
+            $('#btnSelectImage').on('click', function (e) {
+                e.isDefaultPrevented();
+                var finder = new CKFinder();
+                finder.selectActionFunction = function (url) {
+                    $('#txtImage').val(url);
+                };
+                finder.popup();
+            })
+        })
+        var editor = CKEDITOR.replace('txtQuanlity', {
+            customConfig: '/Content/Client/js/Plugins/ckfinder/config.js',
+        });
+    </script>
+}
+@using (Html.BeginForm("SliderEdit", "WebManager", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Cập nhật slider</h1>
+                    </div>
+                    <div class="col-6">
+                        <div class="float-right pt-1">
+                            <input type="submit" value="Cập nhật slider" class="btn btn-primary btn-sm" />
+                            <button type="button" class="btn btn-danger btn-sm">
+                                <a href="/Admin/WebManager/Silder" class="text-white"><i class="fas fa-arrow-circle-left"></i>&nbsp; Trở về</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </section>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="form-group">
+                                <!--False khi nó nhận lỗi trả về là false mới báo-->
+                                @Html.ValidationMessage("slider", new { @class = "text-danger" })
+                                @Html.ValidationMessage("sliderSuccess", new { @class = "text-success" })
+                                @Html.HiddenFor(model=>model.Id)
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Tiêu đề", htmlAttributes: new { @class = "control-label  col-12" })
+                                @Html.TextAreaFor(model => model.Title, new { @class = "form-control", style = "height: 100px", @rows = 5 })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Thư tự hiện", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.DisPlayOrder, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                @Html.Label("Liên Kết", htmlAttributes: new { @class = "control-label  col-12" })
+                                @Html.TextAreaFor(model => model.Link, new { @class = "form-control", style = "height: 100px", @rows = 5 })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Ảnh Sản Phẩm", htmlAttributes: new { @class = "control-label  col-12" })
+                                <div class="">
+                                    @Html.TextBoxFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", @id = "txtImage" }, id = "txtImage" })
+                                    <a id="btnSelectImage" href="#">Chọn ảnh</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>Trạng Thái</label>
+                                    @Html.CheckBoxFor(model => model.Status, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+

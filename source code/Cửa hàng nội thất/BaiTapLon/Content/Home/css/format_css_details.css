@@ -1,0 +1,36 @@
+.available li span{
+	font-size:1em;
+	color: #333;
+	font-family: Arial;
+}
+
+.sidebar h2{
+	padding:10px 20px;
+	border: 1px solid #EBE8E8;
+	background: url(../images/strip-bg.gif) repeat-x #F6F6F6;
+	font-family: Arial;
+	font-size:1.2em;
+	color:#FC7D01;
+	text-transform: uppercase;
+}
+
+.movie_desc h3 a .retest{
+	color: #888;
+	font-family: Arial;
+	font-size:0.9em;
+}
+
+.movie_desc span a{
+	font-size:0.9em;
+	display:inline-block;
+	padding:6px 10px;
+	font-family: Arial;
+	background:#FC7D01;
+	color: #FFF;
+	text-decoration: none;
+	outline: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}

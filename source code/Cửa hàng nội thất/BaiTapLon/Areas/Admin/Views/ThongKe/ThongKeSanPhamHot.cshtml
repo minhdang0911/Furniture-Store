@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Top 10 sản phẩm đang bán chạy nhất";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var topHot = (List<Mood.EF2.Sanpham>)ViewBag.listSanPhamHot;
+}
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Mã Sản Phẩm</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Ảnh</th>
+            <th>Độ Hot</th>
+            
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in topHot)
+        {
+            <tr id="row_@item.IDContent">
+
+                <td>@item.IDContent</td>
+                <td>@item.Name</td>
+                <td>
+                    <img src="@item.Images" alt="Ảnh sách" width="80" height="80" />
+                </td>
+                <td>@item.Tophot</td>
+
+                
+               
+            </tr>
+
+        }
+    </tbody>
+</table>
+

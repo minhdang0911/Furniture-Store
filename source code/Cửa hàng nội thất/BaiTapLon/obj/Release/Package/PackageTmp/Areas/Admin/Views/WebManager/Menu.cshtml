@@ -1,0 +1,92 @@
+﻿@model X.PagedList.IPagedList<Mood.MenuModel.MeNuModelView>
+@using X.PagedList.Mvc;
+@{
+    
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý Menu</li>
+</ol>
+@using (Html.BeginForm("Menu", "WebManager", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+        </div>
+        <button type="submit" class="btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+
+        <div class="col-md-2">
+            <a href="/Admin/WebManager/MenuCreate" class="btn btn-success"><i class="fas fa-plus"></i> Thêm Menu</a>
+        </div>
+
+    </div>
+}
+
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Tên Menu</th>
+            <th>Link Liên Kết</th>
+            <th>Thự Tự Hiện Thị</th>
+            <th>Target</th>
+            <th>Cấp Menu </th>
+            <th>Ngày Tạo </th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IDMenu">
+                <td>@item.NameMenu</td>
+                <td>@item.Link</td>
+                <td>@item.DisplayOrder</td>
+               
+                <td>@item.Target</td>
+                <td>@item.NameType</td>
+                <td>@item.CreateDate'</td>
+               
+                <td>
+                    @if (item.Status)
+                    {
+                        <i class="fas fa-lock-open"></i>
+                        <p>Hoạt động</p>
+                    }
+                    else
+                    {
+                        <i class="fas fa-lock"></i>
+                        <p>Đã khóa</p>
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/WebManager/MenuEdit/@item.IDMenu" class="btn btn-info btn-sm"><i class="fas fa-user-edit"></i> Sửa </a>
+                    @Ajax.ActionLink(" Xóa", "Delete", new { @id = item.IDMenu }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa menu này  ?",
+                   OnComplete = "$('#row_" + item.IDMenu + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger btn-sm far fa-trash-alt" })
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("Menu", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+

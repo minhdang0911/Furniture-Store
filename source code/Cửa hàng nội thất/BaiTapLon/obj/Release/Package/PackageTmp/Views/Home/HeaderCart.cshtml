@@ -1,0 +1,248 @@
+﻿@{
+    var itemCart = (List<BaiTapLon.Models.CartItem>)ViewBag.SanPhamCart;
+    var sessionUser = (BaiTapLon.Common.UserLogin)ViewBag.sessionUser;
+
+}
+@model List<BaiTapLon.Models.CartItem>
+<!-- Cart Sidebar Navigation -->
+<aside id="sidebarContent1" class="u-sidebar u-sidebar__xl" aria-labelledby="sidebarNavToggler1">
+    <div class="u-sidebar__scroller js-scrollbar">
+        <div class="u-sidebar__container">
+            <div class="u-header-sidebar__footer-offset">
+                <!-- Toggle Button -->
+                <div class="d-flex align-items-center position-absolute top-0 right-0 z-index-2 mt-5 mr-md-6 mr-4">
+                    <button type="button" class="close ml-auto"
+                            aria-controls="sidebarContent1"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebarContent1"
+                            data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInRight"
+                            data-unfold-animation-out="fadeOutRight"
+                            data-unfold-duration="500">
+                        <span aria-hidden="true">Đóng <i class="fas fa-times ml-2"></i></span>
+                    </button>
+                </div>
+                <!-- End Toggle Button -->
+                <!-- Content -->
+                <div class="u-sidebar__body">
+                    <div class="u-sidebar__content u-header-sidebar__content">
+                        <!-- Title -->
+                        <header class="border-bottom px-4 px-md-6 py-4">
+                            @if (Model.Count > 0)
+                            {
+                                <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Bạn đang có (@Model.Count()) sản phẩm</h2>
+                            }
+                            else
+                            {
+                                <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Trống</h2>
+                            }
+                            
+                        </header>
+                        <!-- End Title -->
+                       @{ float sum = 0; }
+                        @if (Model.Count >0)
+                        {
+
+                            foreach (var item in Model)
+                            {
+
+
+                                var price_sale = 0;
+                                if(item.Product.PriceSale != null)
+                                {
+                                    price_sale = (int)item.Product.PriceSale;
+                                }
+                                var price_deal = (item.Product.GiaTien - item.Product.GiaTien / 100 * (price_sale));
+                                sum += price_deal * item.Quantity;
+                                var url = "/chi-tiet/" + item.Product.MetaTitle + "-" + item.Product.IDContent;
+                                <div class="px-4 py-5 px-md-6 border-bottom">
+                                    <div class="media">
+                                        <a href="@url" class="d-block"><img src="@item.Product.Images" width="100" height="153" class="img-fluid" alt="image-description"></a>
+                                        <div class="media-body ml-4d875">
+                                            <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Cứng</a></div>
+                                            <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                <a href="@url" class="text-dark">@item.Product.Name</a>
+                                            </h2>
+                                            <div class="font-size-2 mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.Product.TacGia</a></div>
+                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                <span class="woocommerce-Price-amount amount">@item.Quantity x @price_deal.ToString("N0")đ</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 ml-3">
+                                            <a href="javascript:void(0)" class="text-dark"><i class="fas fa-times btn-delete-cart-header" data-id="@item.Product.IDContent"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="px-4 py-5 px-md-6 border-bottom">
+                                <div class="media">
+                                    
+                                    <div class="media-body ml-4d875">
+                                        
+                                        <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                            <a href="" class="text-dark">Giỏ hàng trống</a>
+                                        </h2>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        }
+
+
+
+
+
+                        <div class="px-4 py-5 px-md-6 d-flex justify-content-between align-items-center font-size-3">
+                            <h4 class="mb-0 font-size-3">Tổng Tiền:</h4>
+                            <div class="font-weight-medium">@sum.ToString("N0") đ</div>
+                        </div>
+
+                        <div class="px-4 mb-8 px-md-6">
+                            <a href="/gio-hang" class="btn btn-block py-4 rounded-0 btn-outline-dark mb-4">Xem Giỏ Hàng</a>
+                            @if (sessionUser != null)
+                            {
+                                <a href="/thanh-toan-truc-tuyen" class="btn btn-block py-4 rounded-0 btn-dark">Thanh Toán</a>
+                            }
+                            else
+                            {
+                                <a href="javascript:void(0)" onclick="thanhtoan()"  class="btn btn-block py-4 rounded-0 btn-dark">Thanh Toán</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
+            </div>
+        </div>
+    </div>
+</aside>
+<!-- End Cart Sidebar Navigation -->
+
+
+<!-- Cart Sidebar Navigation Mobile -->
+<aside id="sidebarContent3" class="u-sidebar u-sidebar__xl" aria-labelledby="sidebarNavToggler3">
+    <div class="u-sidebar__scroller js-scrollbar">
+        <div class="u-sidebar__container">
+            <div class="u-header-sidebar__footer-offset">
+                <!-- Toggle Button -->
+                <div class="d-flex align-items-center position-absolute top-0 right-0 z-index-2 mt-5 mr-md-6 mr-4">
+                    <button type="button" class="close ml-auto"
+                            aria-controls="sidebarContent3"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebarContent3"
+                            data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInRight"
+                            data-unfold-animation-out="fadeOutRight"
+                            data-unfold-duration="500">
+                        <span aria-hidden="true"><i class="fas fa-times ml-2"></i></span>
+                    </button>
+                </div>
+                <!-- End Toggle Button -->
+                <!-- Content -->
+                <div class="u-sidebar__body">
+                    <div class="u-sidebar__content u-header-sidebar__content">
+                        <!-- Title -->
+                        <header class="border-bottom px-4 px-md-6 py-4">
+                            @if (Model.Count > 0)
+                            {
+                                <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Bạn đang có (@Model.Count()) sản phẩm</h2>
+                            }
+                            else
+                            {
+                                <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Trống</h2>
+                            }
+
+                        </header>
+                        <!-- End Title -->
+                        @{ float sumMobile = 0; }
+                        @if (Model.Count > 0)
+                        {
+
+                            foreach (var item in Model)
+                            {
+
+
+                                var price_sale = 0;
+                                if (item.Product.PriceSale != null)
+                                {
+                                    price_sale = (int)item.Product.PriceSale;
+                                }
+                                var price_deal = (item.Product.GiaTien - item.Product.GiaTien / 100 * (price_sale));
+                                sumMobile += price_deal * item.Quantity;
+                                var url = "/chi-tiet/" + item.Product.MetaTitle + "-" + item.Product.IDContent;
+                                <div class="px-4 py-5 px-md-6 border-bottom">
+                                    <div class="media">
+                                        <a href="@url" class="d-block"><img src="@item.Product.Images" width="100" height="153" class="img-fluid" alt="image-description"></a>
+                                        <div class="media-body ml-4d875">
+                                            <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Cứng</a></div>
+                                            <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                <a href="@url" class="text-dark">@item.Product.Name</a>
+                                            </h2>
+                                            <div class="font-size-2 mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.Product.TacGia</a></div>
+                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                <span class="woocommerce-Price-amount amount">@item.Quantity x @price_deal.ToString("N0")đ</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 ml-3">
+                                            <a href="javascript:void(0)" class="text-dark"><i class="fas fa-times btn-delete-cart-header" data-id="@item.Product.IDContent"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="px-4 py-5 px-md-6 border-bottom">
+                                <div class="media">
+
+                                    <div class="media-body ml-4d875">
+
+                                        <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                            <a href="" class="text-dark">Giỏ hàng trống</a>
+                                        </h2>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+
+
+
+
+                        <div class="px-4 py-5 px-md-6 d-flex justify-content-between align-items-center font-size-3">
+                            <h4 class="mb-0 font-size-3">Tổng Tiền:</h4>
+                            <div class="font-weight-medium">@sumMobile.ToString("N0") đ</div>
+                        </div>
+
+                        <div class="px-4 mb-8 px-md-6">
+                            <a href="/gio-hang" class="btn btn-block py-4 rounded-0 btn-outline-dark mb-4">Xem Giỏ Hàng</a>
+                            @if (sessionUser != null)
+                            {
+                                <a href="/thanh-toan-truc-tuyen" class="btn btn-block py-4 rounded-0 btn-dark">Thanh Toán</a>
+                            }
+                            else
+                            {
+                                <a href="javascript:void(0)" onclick="thanhtoan()" class="btn btn-block py-4 rounded-0 btn-dark">Thanh Toán</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End Content -->
+            </div>
+        </div>
+    </div>
+</aside>
+<!-- End Cart Sidebar Navigation -->

@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+@section jsFooter{
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Unix timestamp (in seconds) to count down to
+            var twoDaysFromNow = (new Date().getTime() / 1000) + (86400 * 25) + 1;
+
+            // Set up FlipDown
+            var flipdown = new FlipDown(twoDaysFromNow, { headings: ["Ngày", "Giờ", "Phút", "Giây"] })
+
+              // Start the countdown
+              .start()
+
+              // Do something when the countdown ends
+              .ifEnded(() => {
+                  console.log('Ưu đãi kết thúc!');
+              });
+
+            // Toggle theme
+            var interval = setInterval(() => {
+                let body = document.body;
+                body.classList.toggle('light-theme');
+                body.querySelector('#flipdown').classList.toggle('flipdown__theme-dark');
+                body.querySelector('#flipdown').classList.toggle('flipdown__theme-dark');
+            }, 5000);
+        });
+    </script>
+    }
+<!-- ====== MAIN CONTENT ===== -->
+<main id="content">
+    <div class="container">
+        <div class="space-2 space-md-3 space-lg-4 space-top-xl-6 space-bottom-xl-5">
+            <div class="d-flex flex-column align-items-center">
+                <div class="font-weight-medium font-size-15 font-size-xs-25 mb-3">
+                    Chúng tôi sẽ sớm ra mắt.
+                </div>
+                <h6 class="font-weight-medium mb-2 col-lg-7 text-center text-lh-lg mb-5">Trang web của chúng tôi đang được xây dựng. Chúng tôi sẽ sớm có mặt ở đây với trang web tuyệt vời mới của chúng tôi, hãy cũng chờ nào.</h6>
+                <div class="countdown-timer">
+                    <div class="d-flex justify-content-between">
+                        <div class="flipdown" id="flipdown"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- ====== END MAIN CONTENT ===== -->

@@ -1,0 +1,154 @@
+﻿
+@model X.PagedList.IPagedList<Mood.EF2.Orders>
+@using X.PagedList.Mvc;
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý hóa đơn trả lại</li>
+</ol>
+@using (Html.BeginForm("TraLai", "HoaDon", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+        </div>
+        <div class="col-md-2"><button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-search"></i> Tìm kiếm</button></div>
+        <br />
+        <br />
+        <div class="col-md-12">
+            <a href="/Admin/HoaDon/XacNhan" class="btn btn-default col-md-3">Xác Nhận</a>
+            <a href="/Admin/HoaDon/ChoGiao" class="btn btn-default col-md-3">Giao Hàng</a>
+            <a href="/Admin/HoaDon/HoanThanh" class="btn btn-default col-md-3">Hoàn Thành</a>
+            <a href="/Admin/HoaDon/TraLai" class="btn btn-primary col-md-2">Trả Lại</a>
+        </div>
+    </div>
+}
+<br />
+@section jsFooter{
+
+    <script src="~/Content/js/Controller/hoaDonController.js"></script>
+
+}
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Mã hóa đơn</th>
+            <th>Tên Khách Hàng</th>
+            <th>Địa Chỉ Nhận</th>
+            <th>Email</th>
+            <th>Số Điện Thoại</th>
+            <th>Ngày Tạo</th>
+
+            <th>Giao Hàng</th>
+            <th>Nhận Hàng</th>
+
+            <th>Ghi Chú</th>
+
+            <th>Xem Chi Tiết</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+
+            <tr id="row_@item.IDOder">
+
+                <td>@item.IDOder</td>
+                <td>@item.ShipName</td>
+                <td>@item.ShipAddress</td>
+                <td>@item.ShipEmail</td>
+                <td>@item.ShipMobile</td>
+                <td>@item.NgayTao</td>
+                <td>
+                    @if (item.GiaoHang == 1)
+                    {
+                        if (item.NhanHang == 1)
+                        {
+                            <div id="btn-active-change" class="text-success">Đã hoàn tất</div>
+                        }
+                        else if (item.NhanHang == 2)
+                        {
+                            <div id="btn-active-change" class="text-danger">Trả hàng lại</div>
+                        }
+                        else
+                        {
+                            <div id="btn-active-change" class="text-primary">Đang Giao Hàng</div>
+                        }
+
+                    }
+
+                </td>
+                <td>
+                    @if (item.NhanHang == 1)
+                    {
+                        <a href="#" class="btn-active-success text-success" data-id="@item.IDOder">
+                            Đã nhận hàng
+                        </a>
+                    }
+                    else if (item.NhanHang == 2)
+                    {
+                        <div id="btn-active-change" class="text-danger">Trả hàng lại</div>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn-active-success text-dark" data-id="@item.IDOder">
+                            Chưa nhận hàng
+                        </a>
+                    }
+
+                </td>
+
+                @if (item.ghiChu != null)
+                {
+                    <td>@item.ghiChu</td>
+                }
+                else
+                {
+                    <td><a href="/Admin/HoaDon/GhiChu/@item.IDOder" class="btn btn-info btn-sm">Ghi chú</a></td>
+                }
+                <td><a href="/Admin/HoaDon/Details/@item.IDOder" class="btn btn-info btn-sm"> Chi Tiết </a></td>
+                <td>
+                    <a href="#" class="buttonExport btn btn-success btn-sm" data-id="@item.IDOder"> Export </a>
+                    @Ajax.ActionLink(" Xóa", "Delete", new { @id = item.IDOder }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa hóa đơn này?",
+                   OnComplete = "$('#row_" + item.IDOder + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger btn-sm far fa-trash-alt" })
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("TraLai", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+<!--
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <a href="/Admin/User/Create" class="btn btn-success">Thêm người dùng</a>
+    </div>
+</div>  -->
+<div>
+    @Html.ActionLink("Quay lại", "TraLai")
+</div>
+
+
+

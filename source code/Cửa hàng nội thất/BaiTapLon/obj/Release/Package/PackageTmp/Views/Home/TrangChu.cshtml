@@ -1,0 +1,913 @@
+﻿
+@{
+    ViewBag.Title = "TrangChu";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+
+    var listSellings = (List<Mood.EF2.Sanpham>)ViewBag.listSellings;
+    var listTopRate = (List<Mood.EF2.Sanpham>)ViewBag.listTopRate;
+    var listGoiY = (List<Mood.EF2.Sanpham>)ViewBag.listGoiY;
+    var sanphammoi = (List<Mood.EF2.Sanpham>)ViewBag.Sanphamnew;
+    var itemDeal = (List<Mood.EF2.Sanpham>)ViewBag.Deal;
+    var listDeal = (List<Mood.EF2.Sanpham>)ViewBag.SanphamDeal;
+    var topSelling = (List<Mood.EF2.Sanpham>)ViewBag.topSelling;
+    var listProductFeature = (List<Mood.EF2.Sanpham>)ViewBag.NoiBat;
+    var listTab1 = (List<Mood.SanPhamViewModel.SanPhamModel>)ViewBag.tab1;
+    var listTab2 = (List<Mood.SanPhamViewModel.SanPhamModel>)ViewBag.tab2;
+    var listTab3 = (List<Mood.SanPhamViewModel.SanPhamModel>)ViewBag.tab3;
+    var listTab4 = (List<Mood.SanPhamViewModel.SanPhamModel>)ViewBag.tab4;
+}
+
+@section silder{
+    @{Html.RenderAction("Slider", "Home"); }
+}
+@section jsFooter{
+<script src="~/Content/libs/commonjs/flipDonwCommon.js"></script>
+}
+
+
+<!-- Deals with product tab -->
+@foreach (var itemdeal in itemDeal)
+{
+    var url_deal = "/chi-tiet/" + itemdeal.MetaTitle + "-" + itemdeal.IDContent;
+    var price_sale = (int)itemdeal.PriceSale;
+    var price_deal = (itemdeal.GiaTien - itemdeal.GiaTien / 100 * (price_sale));
+    <div class="container py-6 deal-with-product">
+        <div class="row">
+            <div class="col-xl-5 col-wd-4 mb-8 mb-xl-0">
+                <div class="products">
+                    <div class="product product__card product__card-v2">
+                        <div class="px-md-5 py-md-6 p-4 border border-primary border-width-2">
+                            <div class="woocommerce-loop-product__thumbnail py-8 position-relative">
+                                <div class="width-100 height-100 bg-primary rounded-circle d-flex align-items-center flex-wrap justify-content-center text-white position-absolute right-0 top-0">
+                                    <div class="text-center">
+                                        <div>Chỉ Còn</div>
+                                        <div class="font-size-5">@price_deal.ToString("N0")</div>
+                                    </div>
+                                </div>
+                                <a href="@url_deal" class="d-block"><img src="@itemdeal.Images" width="200" height="327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
+                            </div>
+                            <div class="woocommerce-loop-product__body">
+                                <div class="mb-3">
+                                    <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url_deal">Bìa Mềm</a></div>
+                                    <h2 class="woocommerce-loop-product__title font-size-3 text-lh-md mb-2 text-height-2 crop-text-2 h-dark"><a href="@url_deal">@itemdeal.Name</a></h2>
+                                    <div class="font-size-2 text-gray-700 mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">Kim Đồng</a></div>
+                                    <div class="price d-flex align-items-center font-weight-medium font-size-22">
+                                        <ins class="text-decoration-none mr-2">@price_deal.ToString("N0")</ins>
+                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@itemdeal.GiaTien.ToString("N0") đ</span></del>
+                                    </div>
+                                </div>
+                                <div class="countdown-timer mb-5">
+                                    <h5 class="countdown-timer__title font-size-3 mb-3">Mua Ngay! <span class="font-weight-regular">Ưu đãi kết thúc sau:</span></h5>
+                                    <div class="d-flex align-items-stretch justify-content-between">
+                                        <div class="font-weight-medium font-size-3">
+                                            <div id="flipdown" class="font-size-2 ml-md-2 ml-wd-2 d-xl-block d-wd-inline flipdown"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="deal-progress">
+                                    <div class="d-flex justify-content-between font-size-2 mb-2d75">
+                                        <span>Đã Bán: 14</span>
+                                        <span>Còn Lại: 3</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width:82%" aria-valuenow="14" aria-valuemin="0" aria-valuemax="17"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-7 col-wd-8">
+                <header class="d-md-flex justify-content-between mb-5">
+                    <h2 class="font-size-26">Mới Nhất</h2>
+                    <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">
+                        <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                            <a class="nav-link pb-1 px-0 active" id="history-pill-tab" data-toggle="tab" href="#history-pill" role="tab" aria-controls="history-pill" aria-selected="true">Giảm Giá</a>
+                        </li>
+                        <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                            <a class="nav-link pb-1 px-0" id="romance-pill-tab" data-toggle="tab" href="#romance-pill" role="tab" aria-controls="romance-pill" aria-selected="true">Mới Nhất</a>
+                        </li>
+                        <li class="nav-item ml-4 flex-shrink-0 flex-md-shrink-1">
+                            <a class="nav-link pb-1 px-0" id="travel-pill-tab" data-toggle="tab" href="#travel-pill" role="tab" aria-controls="travel-pill" aria-selected="true">Nổi Bật</a>
+                        </li>
+                    </ul>
+                </header>
+                <div class="tab-content" id="pills-tabcontent">
+                    <!--Tab 1-->
+                    <div class="tab-pane fade show active" id="history-pill" role="tabpanel" aria-labelledby="history-pill-tab">
+                        <ul class="products row row-cols-2 row-cols-md-3 list-unstyled mb-0">
+                            @foreach (var itemSale in listDeal)
+                            {
+                                var price_saleList = (int)itemSale.PriceSale;
+                                var price_dealList = (itemSale.GiaTien - itemSale.GiaTien / 100 * (price_saleList));
+                                var url = "/chi-tiet/" + itemSale.MetaTitle + "-" + itemSale.IDContent;
+                                <li class="col">
+                                    <div class="product product__space border bg-white mb-5">
+                                        <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                            <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                <div class="woocommerce-loop-product__thumbnail">
+                                                    <a href="@url" class="d-block"><img src="@itemSale.Images" width="120" height="180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                    <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                        -@price_saleList%
+                                                    </span>
+                                                </div>
+                                                <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                    <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                                    <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@itemSale.Name</a></h2>
+                                                    <div class="font-size-2  mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">@itemSale.TacGia</a></div>
+                                                    <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                        <ins class="text-decoration-none mr-2">@price_dealList.ToString("N0")</ins>
+                                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@itemSale.GiaTien.ToString("N0")đ</span></del>
+                                                    </div>
+
+                                                </div>
+                                                <div class="product__hover d-flex align-items-center">
+                                                    <a href="javascript:void(0)" onclick="addcartHome(@itemSale.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                        <span class="product__add-to-cart">THÊM VÀO GIỎ</span>
+                                                        <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                    </a>
+                                                    <a href="@url" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                        <i class="flaticon-switch"></i>
+                                                    </a>
+                                                    <a href="@url" class="h-p-bg btn btn-outline-primary border-0">
+                                                        <i class="flaticon-heart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                    <!-- End Tab 1-->
+                    <!--Tab 2-->
+                    <div class="tab-pane fade" id="romance-pill" role="tabpanel" aria-labelledby="romance-pill-tab">
+                        <ul class="products row row-cols-2 row-cols-md-3 list-unstyled mb-0">
+                            @foreach (var itemNew in sanphammoi)
+                            {
+                                var price_sale_new = 0;
+                                if (itemNew.PriceSale != null)
+                                {
+                                    price_sale_new = (int)itemNew.PriceSale;
+                                }
+                                var price_deal_new = (itemNew.GiaTien - itemNew.GiaTien / 100 * (price_sale_new));
+                                var url = "/chi-tiet/" + itemNew.MetaTitle + "-" + itemNew.IDContent;
+                                <li class="col">
+                                    <div class="product product__space border bg-white mb-5">
+                                        <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                            <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                <div class="woocommerce-loop-product__thumbnail">
+                                                    <a href="@url" class="d-block"><img src="@itemNew.Images" width="120" height="180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                    @if (price_sale_new > 0)
+                                                    {
+                                                        <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                            -@price_sale_new%
+                                                        </span>
+                                                    }
+                                                </div>
+                                                <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                    <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                                    <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@itemNew.Name</a></h2>
+                                                    <div class="font-size-2  mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">@itemNew.TacGia</a></div>
+                                                    <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                        @if (price_sale_new > 0)
+                                                        {
+                                                            <ins class="text-decoration-none mr-2">@price_deal_new.ToString("N0")</ins>
+                                                            <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@itemNew.GiaTien.ToString("N0")đ</span></del>
+                                                        }
+                                                        else
+                                                        {
+                                                            <ins class="text-decoration-none mr-2">@itemNew.GiaTien.ToString("N0")đ</ins>
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                                <div class="product__hover d-flex align-items-center">
+                                                    <a href="javascript:void(0)" onclick="addcartHome(@itemNew.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                        <span class="product__add-to-cart">THÊM VÀO GIỎ</span>
+                                                        <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                    </a>
+                                                    <a href="@url" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                        <i class="flaticon-switch"></i>
+                                                    </a>
+                                                    <a href="@url" class="h-p-bg btn btn-outline-primary border-0">
+                                                        <i class="flaticon-heart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                    <!--End Tab 2-->
+                    <!--Tab 3-->
+                    <div class="tab-pane fade" id="travel-pill" role="tabpanel" aria-labelledby="travel-pill-tab">
+                        <ul class="products row row-cols-2 row-cols-md-3 list-unstyled mb-0">
+                            @foreach (var itemSell in listSellings)
+                            {
+                                var price_sale_sell = 0;
+                                if (itemSell.PriceSale != null)
+                                {
+                                    price_sale_sell = (int)itemSell.PriceSale;
+                                }
+                                var price_deal_sell = (itemSell.GiaTien - itemSell.GiaTien / 100 * (price_sale_sell));
+                                var url = "/chi-tiet/" + itemSell.MetaTitle + "-" + itemSell.IDContent;
+                                <li class="col">
+                                    <div class="product product__space border bg-white mb-5">
+                                        <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                            <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                <div class="woocommerce-loop-product__thumbnail">
+                                                    <a href="@url" class="d-block"><img src="@itemSell.Images" width="120" height="180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                    @if (price_sale_sell > 0)
+                                                    {
+                                                        <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                            -@price_sale_sell%
+                                                        </span>
+                                                    }
+                                                </div>
+                                                <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                    <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                                    <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@itemSell.Name</a></h2>
+                                                    <div class="font-size-2  mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">@itemSell.TacGia</a></div>
+                                                    <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                        @if (price_sale_sell > 0)
+                                                        {
+                                                            <ins class="text-decoration-none mr-2">@price_deal_sell.ToString("N0")</ins>
+                                                            <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@itemSell.GiaTien.ToString("N0")đ</span></del>
+                                                        }
+                                                        else
+                                                        {
+                                                            <ins class="text-decoration-none mr-2">@itemSell.GiaTien.ToString("N0")đ</ins>
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                                <div class="product__hover d-flex align-items-center">
+                                                    <a href="javascript:void(0)" onclick="addcartHome(@itemSell.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                        <span class="product__add-to-cart">THÊM VÀO GIỎ</span>
+                                                        <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                    </a>
+                                                    <a href="@url" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                        <i class="flaticon-switch"></i>
+                                                    </a>
+                                                    <a href="@url" class="h-p-bg btn btn-outline-primary border-0">
+                                                        <i class="flaticon-heart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </div>
+                    <!--Tab 3-->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- End Deals with product tab -->
+
+<section class="space-bottom-3">
+    <div class="space-3 bg-gray-200">
+        <div class="container">
+            <header class="d-md-flex justify-content-between align-items-center mb-5">
+                <h2 class="font-size-26 mb-4 mb-md-0">Sách Yêu Thích</h2>
+                <a href="/san-pham" class="d-flex align-items-center h-primary">Xem Tất Cả<span class="flaticon-next font-size-3 ml-2"></span></a>
+            </header>
+            <ul class="js-slick-carousel products list-unstyled u-slick--gutters-3 my-0"
+                data-autoplay="true"
+                data-autoplay-speed="5000"
+                data-arrows-classes="d-none d-lg-block u-slick__arrow u-slick__arrow-centered--y"
+                data-arrow-left-classes="flaticon-back u-slick__arrow-inner u-slick__arrow-inner--left ml-lg-n9"
+                data-arrow-right-classes="flaticon-next u-slick__arrow-inner u-slick__arrow-inner--right mr-lg-n9"
+                data-slides-show="4"
+                data-responsive='[{
+                       "breakpoint": 1500,
+                       "settings": {
+                         "slidesToShow": 4
+                       }
+                    }, {
+                       "breakpoint": 1199,
+                       "settings": {
+                         "slidesToShow": 3
+                       }
+                    }, {
+                       "breakpoint": 554,
+                       "settings": {
+                         "slidesToShow": 2
+                       }
+                    }]'>
+
+                @foreach (var item in topSelling)
+               {
+                   var price_sale_sell_top = 0;
+                   if (item.PriceSale != null)
+                   {
+                       price_sale_sell_top = (int)item.PriceSale;
+                   }
+                   var price_deal_sell__top = (item.GiaTien - item.GiaTien / 100 * (price_sale_sell_top));
+                   var url = "/chi-tiet/" + item.MetaTitle + "-" + item.IDContent;
+          
+
+                <li class="product border product__space bg-white">
+                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                            <div class="woocommerce-loop-product__thumbnail">
+
+                                <a href="@url" class="d-block"><img src="@item.Images" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" width="150" height="225" alt="image-description"></a>
+
+                                @if (price_sale_sell_top > 0)
+                                {
+                                    <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                        -@price_sale_sell_top%
+                                    </span>
+                                }
+                            </div>
+                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@item.Name</a></h2>
+                                <div class="font-size-2  mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">@item.TacGia</a></div>
+                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                    @if (price_sale_sell_top > 0)
+                                    {
+                                        <ins class="text-decoration-none mr-2">@price_deal_sell__top.ToString("N0")</ins>
+                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span></del>
+                                    }
+                                    else
+                                    {
+                                        <span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span>
+                                    }
+                                </div>
+
+                            </div>
+                            <div class="product__hover d-flex align-items-center">
+                                <a href="javascript:void(0)" onclick="addcartHome(@item.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                    <span class="product__add-to-cart">Thêm Vào Giỏ</span>
+                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                </a>
+                                <a href="@url" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                    <i class="flaticon-switch"></i>
+                                </a>
+                                <a href="@url" class="h-p-bg btn btn-outline-primary border-0">
+                                    <i class="flaticon-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="sidebar-with-product">
+    <div class="space-bottom-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-xl-3">
+                    <h2 class="font-size-26 mb-4">Xếp Hạng</h2>
+                    <div class="px-4 pt-4 border mb-5">
+                        @foreach (var item in listTopRate)
+                        {
+                            var topRate = 0;
+                            if (item.PriceSale != null)
+                            {
+                                topRate = (int)item.PriceSale;
+                            }
+                            var price_top_rate = (item.GiaTien - item.GiaTien / 100 * (topRate));
+                            var url = "/chi-tiet/" + item.MetaTitle + "-" + item.IDContent;
+                            <div class="media mb-5">
+                                <a class="d-block" href="@url">
+                                    <img class="img-fluid" src="@item.Images" width="60" height="90" alt="Image-Description">
+                                </a>
+                                <div class="media-body ml-3 pl-1">
+                                    <h6 class="crop-text-2 text-lh-md font-weight-normal">
+                                        <a href="@url">@item.Name</a>
+                                    </h6>
+                                    <span class="font-weight-medium">@price_top_rate.ToString("N0") đ </span>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    <h2 class="font-size-26 mb-4">Gợi Ý</h2>
+                    <div class="px-4 pt-4 border mb-5">
+                        @foreach (var item in listGoiY)
+                        {
+                            var topGoiY = 0;
+                            if (item.PriceSale != null)
+                            {
+                                topGoiY = (int)item.PriceSale;
+                            }
+                            var price_top_goi_y = (item.GiaTien - item.GiaTien / 100 * (topGoiY));
+                            var url = "/chi-tiet/" + item.MetaTitle + "-" + item.IDContent;
+                            <div class="media mb-6 align-items-center">
+                                <a class="d-block" href="@url">
+                                    <img class="img-fluid" src="@item.Images" width="53" height="61" alt="Image-Description">
+                                </a>
+                                <div class="media-body ml-3 pl-1">
+                                    <h6 class="crop-text-2 text-lh-md font-weight-normal">
+                                        <a href="@url">@item.Name</a>
+                                    </h6>
+                                    <span class="text-secondary-gray-700 font-size-2">21,658 Lượt Xem</span>
+                                </div>
+                                
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-8 col-xl-9">
+                    <h2 class="font-size-26 mb-4">Sách Nổi Bật</h2>
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-3 row-cols-wd-4 products">
+                        @foreach (var item in listProductFeature)
+                        {
+                            var price_sale_feature = 0;
+                            if (item.PriceSale != null)
+                            {
+                                price_sale_feature = (int)item.PriceSale;
+                            }
+                            var price_deal_feature = (item.GiaTien - item.GiaTien / 100 * (price_sale_feature));
+                            var url = "/chi-tiet/" + item.MetaTitle + "-" + item.IDContent;
+                            <div class="col mb-5">
+                                <div class="product border product__space bg-white">
+                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                            <div class="woocommerce-loop-product__thumbnail">
+                                                <a href="@url" class="d-block"><img src="@item.Images" width="150" height="225" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                @if (price_sale_feature > 0)
+                                                {
+                                                    <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                        -@price_sale_feature%
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@item.Name</a></h2>
+                                                <div class="font-size-2  mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.TacGia</a></div>
+                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                    @if (price_sale_feature > 0)
+                                                    {
+                                                        <ins class="text-decoration-none mr-2">@price_deal_feature.ToString("N0")</ins>
+                                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span></del>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span>
+                                                    }
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="product__hover d-flex align-items-center">
+                                                <a href="javascript:void(0)" onclick="addcartHome(@item.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="THÊM VÀO GIỎ">
+                                                    <span class="product__add-to-cart">Thêm Vào Giỏ</span>
+                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                </a>
+                                                <a href="@url" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                    <i class="flaticon-switch"></i>
+                                                </a>
+                                                <a href="@url" class="h-p-bg btn btn-outline-primary border-0">
+                                                    <i class="flaticon-heart"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Đặc Biệt-->
+<section class="space-bottom-3 banner-with-product">
+    <div class="container">
+        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+            <h2 class="font-size-7 mb-3 mb-md-0">Đặc Biệt</h2>
+            <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">
+                <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                    <a class="nav-link pb-1 px-0 active" id="history-tab" data-toggle="tab" href="#history-1" role="tab" aria-controls="history-1" aria-selected="true">@listTab1[0].TenTheloai</a>
+                </li>
+                <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                    <a class="nav-link pb-1 px-0" id="sciencemath-tab" data-toggle="tab" href="#sciencemath-1" role="tab" aria-controls="sciencemath-1" aria-selected="false">@listTab2[0].TenTheloai</a>
+                </li>
+                <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                    <a class="nav-link pb-1 px-0" id="romance-tab" data-toggle="tab" href="#romance-1" role="tab" aria-controls="romance-1" aria-selected="false">@listTab3[0].TenTheloai</a>
+                </li>
+                <li class="nav-item ml-4 flex-shrink-0 flex-md-shrink-1">
+                    <a class="nav-link pb-1 px-0" id="travel-tab" data-toggle="tab" href="#travel-1" role="tab" aria-controls="travel-1" aria-selected="false">@listTab4[0].TenTheloai</a>
+                </li>
+            </ul>
+        </header>
+        <div class="tab-content u-slick__tab">
+            <!--tab1-->
+            <div class="tab-pane fade show active" id="history-1" role="tabpanel" aria-labelledby="history-tab">
+                <div class="row no-gutters">
+                    <div class="col-xl-4 border-right-0 border bg-gray-200 px-1">
+                        <div class="banner px-lg-8 px-3 py-4 py-xl-0 d-flex h-100 align-items-center justify-content-center">
+                            <div class="banner__body">
+                                <div class="banner__image pb-1 mb-5">
+                                    <img class="img-fluid" src="~/assets/img/imgbook/getextra.png" width="350" height="282" alt="image-description">
+                                </div>
+                                <h3 class="banner_text m-0">
+                                    <span class="d-block mb-1 font-size-10 font-weight-regular">Nhận Thêm</span>
+                                    <span class="d-block mb-3 font-size-12 text-primary font-weight-medium">Giảm -25%</span>
+                                    <span class="d-block mb-5 text-uppercase font-size-7 font-weight-regular text-gray-400">Khi có đơn trên 200k</span>
+                                </h3>
+                                <a href="../shop/v1.html" class="btn btn-primary btn-wide rounded-0">Xem Thêm</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left my-0">
+                            @foreach (var item in listTab1)
+                            {
+                                var price_sale_tab1 = 0;
+                                if (item.PriceSale != null)
+                                {
+                                    price_sale_tab1 = (int)item.PriceSale;
+                                }
+                                var price_deal_tab1 = (item.GiaTien - item.GiaTien / 100 * (price_sale_tab1));
+                                var url = "/chi-tiet/" + item.Metatile + "-" + item.IDContent;
+                                <li class="product col">
+                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                            <div class="woocommerce-loop-product__thumbnail">
+                                                <a href="@url" class="d-block"><img src="@item.Images" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                @if (price_sale_tab1 > 0)
+                                                {
+                                                    <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                        -@price_sale_tab1%
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@item.Name</a></h2>
+                                                <div class="font-size-2  mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.TacGia</a></div>
+                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                    @if (price_sale_tab1 > 0)
+                                                    {
+                                                        <ins class="text-decoration-none mr-2">@price_deal_tab1.ToString("N0")</ins>
+                                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span></del>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="product__hover d-flex align-items-center">
+                                                <a href="javascript:void(0)" onclick="addcartHome(@item.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="THÊM VÀO GIỎ">
+                                                    <span class="product__add-to-cart">THÊM VÀO GIỎ</span>
+                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                </a>
+                                                <a href="../shop/single-product-v1.html" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                    <i class="flaticon-switch"></i>
+                                                </a>
+                                                <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
+                                                    <i class="flaticon-heart"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--end tab1-->
+
+            <!--tab2-->
+            <div class="tab-pane fade" id="sciencemath-1" role="tabpanel" aria-labelledby="sciencemath-tab">
+                <div class="row no-gutters">
+                    <div class="col-xl-4 border-right-0 border bg-gray-200 px-1">
+                        <div class="banner px-lg-8 px-3 py-4 py-xl-0 d-flex h-100 align-items-center justify-content-center">
+                            <div class="banner__body">
+                                <div class="banner__image pb-1 mb-5">
+                                    <img class="img-fluid" src="~/assets/img/imgbook/getextra.png" width="350" height="282" alt="image-description">
+                                </div>
+                                <h3 class="banner_text m-0">
+                                    <span class="d-block mb-1 font-size-10 font-weight-regular">Nhận Thêm</span>
+                                    <span class="d-block mb-3 font-size-12 text-primary font-weight-medium">Giảm -25%</span>
+                                    <span class="d-block mb-5 text-uppercase font-size-7 font-weight-regular text-gray-400">Khi có đơn trên 200k</span>
+                                </h3>
+                                <a href="../shop/v1.html" class="btn btn-primary btn-wide rounded-0">Xem Thêm</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left my-0">
+                            @foreach (var item in listTab2)
+                            {
+                                var price_sale_tab2 = 0;
+                                if (item.PriceSale != null)
+                                {
+                                    price_sale_tab2 = (int)item.PriceSale;
+                                }
+                                var price_deal_tab2 = (item.GiaTien - item.GiaTien / 100 * (price_sale_tab2));
+                                var url = "/chi-tiet/" + item.Metatile + "-" + item.IDContent;
+                                <li class="product col">
+                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                            <div class="woocommerce-loop-product__thumbnail">
+                                                <a href="@url" class="d-block"><img src="@item.Images" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                @if (price_sale_tab2 > 0)
+                                                {
+                                                    <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                        -@price_sale_tab2%
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@item.Name</a></h2>
+                                                <div class="font-size-2  mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.TacGia</a></div>
+                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                    @if (price_sale_tab2 > 0)
+                                                    {
+                                                        <ins class="text-decoration-none mr-2">@price_deal_tab2.ToString("N0")</ins>
+                                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span></del>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="product__hover d-flex align-items-center">
+                                                <a href="javascript:void(0)" onclick="addcartHome(@item.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="THÊM VÀO GIỎ">
+                                                    <span class="product__add-to-cart">THÊM VÀO GIỎ</span>
+                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                </a>
+                                                <a href="../shop/single-product-v1.html" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                    <i class="flaticon-switch"></i>
+                                                </a>
+                                                <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
+                                                    <i class="flaticon-heart"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--end tab2-->
+
+            <!--tab3-->
+            <div class="tab-pane fade" id="romance-1" role="tabpanel" aria-labelledby="romance-tab">
+                <div class="row no-gutters">
+                    <div class="col-xl-4 border-right-0 border bg-gray-200 px-1">
+                        <div class="banner px-lg-8 px-3 py-4 py-xl-0 d-flex h-100 align-items-center justify-content-center">
+                            <div class="banner__body">
+                                <div class="banner__image pb-1 mb-5">
+                                    <img class="img-fluid" src="~/assets/img/imgbook/getextra.png" width="350" height="282" alt="image-description">
+                                </div>
+                                <h3 class="banner_text m-0">
+                                    <span class="d-block mb-1 font-size-10 font-weight-regular">Nhận Thêm</span>
+                                    <span class="d-block mb-3 font-size-12 text-primary font-weight-medium">Giảm -25%</span>
+                                    <span class="d-block mb-5 text-uppercase font-size-7 font-weight-regular text-gray-400">Khi có đơn trên 200k</span>
+                                </h3>
+                                <a href="../shop/v1.html" class="btn btn-primary btn-wide rounded-0">Xem Thêm</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left my-0">
+                           @foreach (var item in listTab3)
+                           {
+                               var price_sale_tab3 = 0;
+                               if (item.PriceSale != null)
+                               {
+                                   price_sale_tab3 = (int)item.PriceSale;
+                               }
+                               var price_deal_tab3 = (item.GiaTien - item.GiaTien / 100 * (price_sale_tab3));
+                               var url = "/chi-tiet/" + item.Metatile + "-" + item.IDContent;
+                            <li class="product col">
+                                <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                    <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                        <div class="woocommerce-loop-product__thumbnail">
+                                            <a href="@url" class="d-block"><img src="@item.Images" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                            @if (price_sale_tab3 > 0)
+                                            {
+                                                <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                    -@price_sale_tab3%
+                                                </span>
+                                            }
+                                        </div>
+                                        <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                            <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                            <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@item.Name</a></h2>
+                                            <div class="font-size-2  mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.TacGia</a></div>
+                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                @if (price_sale_tab3 > 0)
+                                                {
+                                                    <ins class="text-decoration-none mr-2">@price_deal_tab3.ToString("N0")</ins>
+                                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span></del>
+                                                }
+                                                else
+                                                {
+                                                    <span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="product__hover d-flex align-items-center">
+                                            <a href="javascript:void(0)" onclick="addcartHome(@item.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="THÊM VÀO GIỎ">
+                                                <span class="product__add-to-cart">THÊM VÀO GIỎ</span>
+                                                <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                            </a>
+                                            <a href="../shop/single-product-v1.html" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                <i class="flaticon-switch"></i>
+                                            </a>
+                                            <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
+                                                <i class="flaticon-heart"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                           }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--end tab3-->
+
+            <!--tab4-->
+            <div class="tab-pane fade" id="travel-1" role="tabpanel" aria-labelledby="travel-tab">
+                <div class="row no-gutters">
+                    <div class="col-xl-4 border-right-0 border bg-gray-200 px-1">
+                        <div class="banner px-lg-8 px-3 py-4 py-xl-0 d-flex h-100 align-items-center justify-content-center">
+                            <div class="banner__body">
+                                <div class="banner__image pb-1 mb-5">
+                                    <img class="img-fluid" src="~/assets/img/imgbook/getextra.png" width="350" height="282" alt="image-description">
+                                </div>
+                                <h3 class="banner_text m-0">
+                                    <span class="d-block mb-1 font-size-10 font-weight-regular">Nhận Thêm</span>
+                                    <span class="d-block mb-3 font-size-12 text-primary font-weight-medium">Giảm -25%</span>
+                                    <span class="d-block mb-5 text-uppercase font-size-7 font-weight-regular text-gray-400">Khi có đơn trên 200k</span>
+                                </h3>
+                                <a href="san-pham/" class="btn btn-primary btn-wide rounded-0">Xem Thêm</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left my-0">
+                           @foreach (var item in listTab4)
+                           {
+                               var price_sale_tab4 = 0;
+                               if (item.PriceSale != null)
+                               {
+                                   price_sale_tab4 = (int)item.PriceSale;
+                               }
+                               var price_deal_tab4 = (item.GiaTien - item.GiaTien / 100 * (price_sale_tab4));
+                               var url = "/chi-tiet/" + item.Metatile + "-" + item.IDContent;
+                            <li class="product col">
+                                <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                    <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                        <div class="woocommerce-loop-product__thumbnail">
+                                            <a href="@url" class="d-block"><img src="@item.Images" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                            @if (price_sale_tab4 > 0)
+                                            {
+                                                <span class="badge badge-md badge-primary-green position-absolute badge-pos--top-right text-white rounded-circle d-flex flex-column align-items-center justify-content-center">
+                                                    -@price_sale_tab4%
+                                                </span>
+                                            }
+                                        </div>
+                                        <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                            <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                            <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@item.Name</a></h2>
+                                            <div class="font-size-2  mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.TacGia</a></div>
+                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                @if (price_sale_tab4 > 0)
+                                                {
+                                                    <ins class="text-decoration-none mr-2">@price_deal_tab4.ToString("N0")</ins>
+                                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span></del>
+                                                }
+                                                else
+                                                {
+                                                    <span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="product__hover d-flex align-items-center">
+                                            <a href="javascript:void(0)" onclick="addcartHome(@item.IDContent)" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="THÊM VÀO GIỎ">
+                                                <span class="product__add-to-cart">THÊM VÀO GIỎ</span>
+                                                <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                            </a>
+                                            <a href="../shop/single-product-v1.html" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                <i class="flaticon-switch"></i>
+                                            </a>
+                                            <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
+                                                <i class="flaticon-heart"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                           }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!--tab4-->
+        </div>
+    </div>
+</section>
+<!--End Đặc Biệt-->
+<!--Tiểu Thuyết-->
+<section>
+    <div class="bg-gray-200 space-top-2 space-bottom-3 space-top-lg-3 space-bottom-lg-4">
+        <div class="container">
+            <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                <h2 class="font-size-7 mb-3 mb-md-0">@listTab1[0].TenTheloai</h2>
+                <a href="/san-pham" class="h-primary d-block">Xem Tất Cả <i class="glyph-icon flaticon-next"></i></a>
+            </header>
+            <div class="js-slick-carousel u-slick u-slick--gutters-3 products"
+                 data-autoplay="true"
+                 data-autoplay-speed="5000"
+                 data-pagi-classes="text-center u-slick__pagination mt-7 position-absolute right-0 left-0"
+                 data-slides-show="3"
+                 data-responsive='[{
+                       "breakpoint": 1199,
+                       "settings": {
+                         "slidesToShow": 2
+                       }
+                    }, {
+                       "breakpoint": 992,
+                       "settings": {
+                         "slidesToShow": 1
+                       }
+                    }, {
+                       "breakpoint": 554,
+                       "settings": {
+                         "slidesToShow": 1
+                       }
+                    }]'>
+                @foreach (var item in listTab1)
+                {
+                    var price_sale_tab1 = 0;
+                    if (item.PriceSale != null)
+                    {
+                        price_sale_tab1 = (int)item.PriceSale;
+                    }
+                    var price_deal_tab1 = (item.GiaTien - item.GiaTien / 100 * (price_sale_tab1));
+                    var url = "/chi-tiet/" + item.Metatile + "-" + item.IDContent;
+                    <div class="product product__card border-0">
+                        <div class="media p-3 p-md-4d875 bg-white border">
+                            <a href="@url" class="d-block"><img src="@item.Images" width="120" height="180" alt="image-description"></a>
+                            
+                            <div class="media-body ml-4d875">
+                                <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="@url">Bìa Mềm</a></div>
+                                <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="@url">@item.Name</a></h2>
+                                <div class="font-size-2 mb-1 text-truncate"><a href="@url" class="text-gray-700">@item.TacGia</a></div>
+                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                    @if (price_sale_tab1 > 0)
+                                    {
+                                        <ins class="text-decoration-none mr-2">@price_deal_tab1.ToString("N0")</ins>
+                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span></del>
+                                    }
+                                    else
+                                    {
+                                        <span class="woocommerce-Price-amount amount">@item.GiaTien.ToString("N0")đ</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+                
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Tiểu Thuyết-->

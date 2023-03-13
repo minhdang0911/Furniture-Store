@@ -1,0 +1,90 @@
+﻿@model X.PagedList.IPagedList<Mood.EF2.Slide>
+@using X.PagedList.Mvc;
+
+@{
+   
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý silder</li>
+</ol>
+@using (Html.BeginForm("Slider", "WebManager", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+        </div>
+        <button type="submit" class="btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+        <div class="col-md-2">
+            <a href="/Admin/WebManager/SliderCreate" class="btn btn-success"><i class="fas fa-plus"></i> Thêm Slider Mới</a>
+        </div>
+        </div>
+}
+
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>ID</th>
+            <th>Ảnh</th>
+            <th>Thự tự hiện thị</th>
+            <th>Liên kết</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.Id">
+               <td>@item.Id</td>
+                <td>
+                    <img src="@item.Image" alt="Ảnh sách" width="300" height="280" />
+                </td>
+                <td>@item.DisPlayOrder</td>
+                <td>@item.Link</td>
+               
+                <td>
+                    @if (item.Status)
+                    {
+                        <i class="fas fa-lock-open"></i>
+                        <p>Hoạt động</p>
+                    }
+                    else
+                    {
+                        <i class="fas fa-lock"></i>
+                        <p>Đã khóa</p>
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/WebManager/SliderEdit/@item.Id" class="btn btn-info btn-sm"><i class="fas fa-user-edit"></i> Sửa </a>
+                    @Ajax.ActionLink(" Xóa", "DeleteSlider", new { @id = item.Id }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn silde này  ?",
+                   OnComplete = "$('#row_" + item.Id + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger btn-sm far fa-trash-alt" })
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+
+@Html.PagedListPager(Model, page => Url.Action("Slider", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })

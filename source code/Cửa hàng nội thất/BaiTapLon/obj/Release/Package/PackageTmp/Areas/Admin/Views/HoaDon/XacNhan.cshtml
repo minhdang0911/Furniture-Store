@@ -1,0 +1,165 @@
+﻿
+@model X.PagedList.IPagedList<Mood.EF2.Orders>
+@using X.PagedList.Mvc;
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý hóa đơn</li>
+</ol>
+@using (Html.BeginForm("XacNhan", "HoaDon", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-10">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+        </div>
+        <div class="col-md-2"><button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-search"></i> Tìm kiếm</button></div>
+        <!--
+            
+            <br />
+        <br />
+        <div class="col-md-12">
+            <a href="/Admin/HoaDon/XacNhan" class="btn btn-primary col-md-3">Xác Nhận</a>
+            <a href="/Admin/HoaDon/ChoGiao" class="btn btn-default col-md-3">Giao Hàng</a>
+            <a href="/Admin/HoaDon/HoanThanh" class="btn btn-default col-md-3">Hoàn Thành</a>
+            <a href="/Admin/HoaDon/TraLai" class="btn btn-default col-md-2">Trả Lại</a>
+        </div>
+        -->
+
+    </div>
+
+}
+<br />
+@section jsFooter{
+
+    
+<link href="~/Content/libs/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Content/libs/commonjs/dongGoiController.js"></script>
+
+}
+<ul class="bs4-order-tracking">
+    <li class="step active">
+        <div><i class="fas fa-user"></i></div> <a href="/Admin/HoaDon/XacNhan">Duyệt Đơn</a>
+    </li>
+    <li class="step">
+        <div><i class="fas fa-bread-slice"></i></div><a href="/Admin/HoaDon/DongGoi">Đóng Gói</a>
+    </li>
+    <li class="step">
+        <div><i class="fas fa-truck"></i></div> <a href="/Admin/HoaDon/XuatKho">Xuất Kho</a>
+    </li>
+    <li class="step">
+        <div><i class="fas fa-birthday-cake"></i></div> <a href="/Admin/HoaDon/HoanThanh">Hoàn Thành</a>
+    </li>
+
+</ul>
+<p class="text-center"><b>Chú Ý:</b> Xác nhận thông tin của khách hàng trước khi <span class="badge badge-info">Duyệt Đơn</span> .</p>
+<p class="text-center"><b>Hướng Dẫn:</b> Bạn click vào <span class="badge badge-info">Duyệt Đơn</span> để duyệt đơn hàng nhanh nhất.</p>
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Mã hóa đơn</th>
+            <th>Tên Khách Hàng</th>
+            <th>Địa Chỉ Nhận</th>
+            <th>Email</th>
+            <th>Số Điện Thoại</th>
+            <th>Ngày Tạo</th>
+            <th>Phương Thức</th>
+            <th>Thanh Toán</th>
+            <th>Trạng Thái</th>
+            <th>Xem Chi Tiết</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IDOder">
+
+                <td>@item.IDOder</td>
+                <td>@item.ShipName</td>
+                <td>@item.ShipAddress</td>
+                <td>@item.ShipEmail</td>
+                <td>@item.ShipMobile</td>
+                <td>@item.NgayTao</td>
+                <td>
+                    @if (item.DeliveryPaymentMethod.Equals("COD"))
+                    {
+                        <div class="text-info">COD</div>
+                    }
+                    else if(item.DeliveryPaymentMethod.Equals("ATM"))
+                    {
+                        <div class="text-info">ATM</div>
+                    }
+                    else if (item.DeliveryPaymentMethod.Equals("Ngân Lượng"))
+                    {
+                        <div class="text-info">Ngân lượng</div>
+                    }
+                    else
+                    {
+                        <div class="text-danger">MOMO</div>
+                    }
+                </td>
+                <td>
+                    @if (item.StatusPayment == 2)
+                    {
+                        <div class="badge badge-secondary">Chưa Thanh Toán</div>
+                    }
+                    else
+                    {
+                        <div class="badge badge-success">Đã Thanh Toán</div>
+                    }
+                </td>
+                <td>
+                    @if (item.Status == 0)
+                    {
+
+                        <a href="#" class="btn-active-Status badge badge-info" data-id="@item.IDOder">
+                            Duyệt Đơn
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn-active-Status badge badge-success" data-id="@item.IDOder">
+                            Đã Duyệt
+                        </a>
+                    }
+
+                </td>
+
+                <td><a href="/Admin/HoaDon/Details/@item.IDOder" class="badge badge-info"> Chi Tiết </a></td>
+                <td>
+                    <a href="#" class="buttonExport badge badge-success" data-id="@item.IDOder"> Export </a>
+                    @Ajax.ActionLink(" ", "Delete", new { @id = item.IDOder }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa hóa đơn này?",
+                   OnComplete = "$('#row_" + item.IDOder + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "badge badge-danger far fa-trash-alt" })
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("XacNhan", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+
+
+

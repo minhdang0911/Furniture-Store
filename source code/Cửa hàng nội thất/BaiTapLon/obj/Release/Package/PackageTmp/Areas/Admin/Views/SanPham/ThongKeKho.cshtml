@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Biểu đồ thông kê hàng trong kho.";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section jsFooter{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<link href="~/Content/libs/toastr/toastr.css" rel="stylesheet" />
+<script src="~/Content/libs/khohangController.js"></script>
+    <script>
+        function float2vnd(value) {
+            return value.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        }
+        var listNameProduct = @Html.Raw(Json.Encode(ViewBag.listNameProduct));
+        var listSoLuong = @Html.Raw(Json.Encode(ViewBag.listSoLuong));
+        var listTonKho = @Html.Raw(Json.Encode(ViewBag.listTonKho));
+
+        var ctx = $('#myChart');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: listNameProduct,
+                datasets: [
+                    {
+                        label: 'Có Thể Bán',
+                        data: listSoLuong,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(25, 184, 35, 0.8)',
+                    },
+                    {
+                        label: 'Tồn Kho',
+                        data: listTonKho,
+                        borderColor: 'rgba(192, 192, 192, 1)',
+                        backgroundColor: 'rgba(246, 51, 78, 0.8)',
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            
+                        }
+                    }]
+                },
+            }
+        });
+
+
+        $("#renderBtn").click(
+            function () {
+                var ctx = $('#myChart');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: listNameProduct,
+                        datasets: [
+                            {
+                                label: 'Có Thể Bán',
+                                data: listSoLuong,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(25, 184, 35, 0.8)',
+                            },
+                            {
+                                label: 'Tồn Kho',
+                                data: listTonKho,
+                                borderColor: 'rgba(192, 192, 192, 1)',
+                                backgroundColor: 'rgba(246, 51, 78, 0.8)',
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    
+                                }
+                            }]
+                        },
+                    }
+                });
+            }
+        );
+    </script>
+
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Thông kê doanh thu</li>
+</ol>
+@using (Html.BeginForm("ThongKeKho", "SanPham", FormMethod.Get))
+{
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <label><b>Từ ngày</b></label>
+                <input type="date" name="fromDate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+            </div>
+            <div class="col-md-4">
+                <label><b>Đến ngày</b></label>
+                <input type="date" name="todate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <button class="btn btn-sm btn-success" id="renderBtn">
+                Tải dữ liệu biểu đồ
+            </button>
+            
+            <button class="btn btn-sm btn-success" type="submit">Thống Kê Kho</button>
+            <a href="#" class="btn btn-sm btn-success btnExportTonKho" data-fromdate="@ViewBag.fromDate" data-todate="@ViewBag.todate"> Export Excel </a>
+            <a href="/Admin/SanPham/KhoHang" class="btn btn-sm btn-danger"><i class="fas fa-arrow-circle-left"></i>&nbsp; Trở về</a>
+        </div>
+       
+        <canvas id="myChart"></canvas>
+
+    </div>
+}
+
+
+

@@ -1,0 +1,83 @@
+﻿@model X.PagedList.IPagedList<Mood.EF2.Feed_Back>
+@using X.PagedList.Mvc;
+@{
+    
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý liên hệ</li>
+</ol>
+@using (Html.BeginForm("Index", "FeedBack", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="searching" placeholder="Nhập từ khóa cần tìm kiếm..." />
+
+        </div>
+        <button type="submit" class="btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+    </div>
+}
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Tên Khách Hàng</th>
+            <th>Tiêu Đề</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IDFeedBack">
+                <td>@item.Name</td>
+                <td>@item.TieuDe</td>
+                <td>@item.Phone</td>
+                <td>@item.Email</td>
+                
+                <td>
+                    @if (item.Status == false)
+                    {
+                        <a href="/Admin/FeedBack/Reply/@item.IDFeedBack" class="badge badge-info text-white"><i class="fas fa-user-edit"></i> Trả Lời </a>
+                    }
+                    else
+                    {
+                        <a href="/Admin/FeedBack/Reply/@item.IDFeedBack" class="badge badge-success text-white"><i class="fas fa-user-edit"></i> Đã trả lời </a>
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/FeedBack/ChiTiet/@item.IDFeedBack" class="btn btn-info btn-sm"><i class="far fa-eye"></i> Xem </a>
+                    @Ajax.ActionLink(" Xóa", "Delete", new { @id = item.IDFeedBack }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa liên hệ này?",
+                   OnComplete = "$('#row_" + item.IDFeedBack + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger btn-sm far fa-trash-alt" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+
+
+
+
+

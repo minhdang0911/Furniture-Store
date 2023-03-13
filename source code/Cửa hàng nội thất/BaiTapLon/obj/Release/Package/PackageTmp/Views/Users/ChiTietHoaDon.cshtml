@@ -1,0 +1,166 @@
+﻿@model Mood.EF2.Orders
+@using X.PagedList.Mvc;
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    var hoaDonSanPham = (X.PagedList.IPagedList<Mood.HoaDonModel.ChiTietHoaDon>)ViewBag.hoaDonSanPham;
+    var total = ViewBag.priceTotol;
+
+}
+
+
+<!-- ====== MAIN CONTENT ===== -->
+<main id="content">
+    <div class="bg-gray-200 space-bottom-3">
+        <div class="container">
+            <div class="py-5 py-lg-7">
+                <h6 class="font-weight-medium font-size-7 text-center mt-lg-1">Thông Tin Đơn Hàng</h6>
+            </div>
+            <div class="max-width-890 mx-auto">
+                <div class="bg-white pt-6 border">
+                    <h6 class="font-size-3 font-weight-medium text-center mb-4 pb-xl-1"></h6>
+                    <div class="border-bottom mb-5 pb-5 overflow-auto overflow-md-visible">
+                        <div class="pl-3">
+                            <table class="table table-borderless mb-0 ml-1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="font-size-2 font-weight-normal py-0">Mã đơn:</th>
+                                        <th scope="col" class="font-size-2 font-weight-normal py-0">Ngày lập:</th>
+                                        <th scope="col" class="font-size-2 font-weight-normal py-0 text-md-center">Tổng tiền: </th>
+                                        <th scope="col" class="font-size-2 font-weight-normal py-0 text-md-right pr-md-9">Hình Thức Thanh Toán:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" class="pr-0 py-0 font-weight-medium">#@Model.IDOder</th>
+                                        <td class="pr-0 py-0 font-weight-medium">@(string.Format("{0:dd MM yyyy}", @Html.DisplayFor(model => model.NgayTao)))</td>
+                                        <td class="pr-0 py-0 font-weight-medium text-md-center">@total.ToString("N0")đ</td>
+                                        <td class="pr-md-4 py-0 font-weight-medium text-md-right">@Model.DeliveryPaymentMethod</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="border-bottom mb-5 pb-6">
+                        <div class="px-3 px-md-4">
+                            <div class="ml-md-2">
+                                <h6 class="font-size-3 on-weight-medium mb-4 pb-1">Chi tiết đơn hàng</h6>
+                                @foreach (var item in hoaDonSanPham)
+                                {
+                                   
+                                    var price_deal = (int)(item.Price *(item.Quanlity));
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <div class="d-flex align-items-baseline">
+                                            <div>
+                                                <h6 class="font-size-2 font-weight-normal mb-1">@item.Name <br> @item.TacGia</h6>
+                                                <span class="font-size-2 text-gray-600">Bìa Mềm</span>
+                                            </div>
+                                            <span class="font-size-2 ml-4 ml-md-8">x @item.Quanlity</span>
+                                        </div>
+                                        <span class="font-weight-medium font-size-2">@price_deal.ToString("N0")đ</span>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-bottom mb-5 pb-5">
+                        <ul class="list-unstyled px-3 pl-md-5 pr-md-4 mb-0">
+                            <li class="d-flex justify-content-between py-2">
+                                <span class="font-weight-medium font-size-2">Thanh Toán:</span>
+                                <span class="font-weight-medium font-size-2">@total.ToString("N0")đ</span>
+                            </li>
+                            <li class="d-flex justify-content-between py-2">
+                                <span class="font-weight-medium font-size-2">Vận Chuyển:</span>
+                                <span class="font-weight-medium font-size-2">
+                                    @if (Model.Status == 0)
+                                    {
+
+                                       <span class="badge badge-primary"> Chờ duyệt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-success"> Đã duyệt</span>
+                                    }
+
+
+                                    @if (Model.GiaoHang == 2)
+                                    {
+                                        if (Model.NhanHang == 1)
+                                        {
+
+                                            <span class="badge badge-success"> Đã hoàn tất</span>
+                                        }
+                                        else if (Model.NhanHang == 2)
+                                        {
+                                            <span class="badge badge-danger"> Trả Lại</span>
+                                        }
+                                        else
+                                        {
+                                           <span class="badge badge-info"> Đang Giao Hàng</span>
+                                        }
+
+                                    }
+                                    else if (Model.GiaoHang == 1)
+                                    {
+                                        <span class="badge badge-warning"> Chờ xuất kho</span>
+                                    }
+                                    else
+                                    {
+
+                                        if (Model.GiaoHang == 0)
+                                        {
+                                            <span class="badge badge-primary"> Chờ đóng gói</span>
+                                        }
+                                        if (Model.GiaoHang == 2)
+                                        {
+                                            <span class="badge badge-primary"> Đã Xuất Kho</span>
+                                        }
+
+                                    }
+                                </span>
+                            </li>
+                            <li class="d-flex justify-content-between pt-2">
+                                <span class="font-weight-medium font-size-2">Hình thức thanh toán:</span>
+                                <span class="font-weight-medium font-size-2">@Model.DeliveryPaymentMethod</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="border-bottom mb-5 pb-4">
+                        <div class="px-3 pl-md-5 pr-md-4">
+                            <div class="d-flex justify-content-between">
+                                <span class="font-size-2 font-weight-medium">Tổng Tiền</span>
+                                <span class="font-weight-medium fon-size-2">@total.ToString("N0")đ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-3 pl-md-5 pr-md-4 mb-6 pb-xl-1">
+                        <div class="row row-cols-1 row-cols-md-2">
+                            <div class="col">
+                                <div class="mb-6 mb-md-0">
+                                    <h6 class="font-weight-medium font-size-22 mb-3">
+                                        Địa chỉ thanh toán
+                                    </h6>
+                                    <address class="d-flex flex-column mb-0">
+                                        <span class="text-gray-600 font-size-2">@Model.ShipAddress</span>
+
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h6 class="font-weight-medium font-size-22 mb-3">
+                                    Đia chỉ nhận hàng
+                                </h6>
+                                <address class="d-flex flex-column mb-0">
+                                    <span class="text-gray-600 font-size-2">@Model.ShipAddress</span>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- ====== END MAIN CONTENT ===== -->
+

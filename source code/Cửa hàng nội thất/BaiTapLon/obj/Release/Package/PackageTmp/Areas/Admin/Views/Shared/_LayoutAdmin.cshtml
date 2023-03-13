@@ -1,0 +1,260 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="~/DataImage/icon-book-72-275692.png" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trang quản lý - Nhà Sách Phương Nam</title>
+    <link href="~/Content/libs/timeline/Timeline.css" rel="stylesheet" />
+    <link href="~/Content/libs/toastr/toastr.css" rel="stylesheet" />
+    <!-- Custom fonts for this template-->
+    
+    <link href="~/Content/Client/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+
+    <!-- Page level plugin CSS-->
+    
+    <link href="~/Content/Client/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template-->
+    
+    <link href="~/Content/Client/css/sb-admin.css" rel="stylesheet" />
+    @RenderSection("cssHeader", required: false)
+</head>
+
+<body id="page-top">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+        <a class="navbar-brand mr-1" href="/Admin/Homes">Nhà Sách Phương Nam</a>
+
+        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Navbar Search -->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Navbar -->
+        @RenderPage("~/Areas/Admin/Views/Shared/_NagvationLayoutAdmin.cshtml")
+
+    </nav>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="sidebar navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Homes">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Trang chủ</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-users"></i>
+                    <span>Quản lí người dùng</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                   
+                    <a class="dropdown-item" href="/Admin/User/Create">Thêm mới quản trị viên</a>
+                    <a class="dropdown-item" href="/Admin/User/Index">Danh sách người dùng</a>
+                   
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-book"></i>
+                    <span>Quản lí sách</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item " href="/Admin/SanPham/Index">Danh sách sản phẩm</a>
+                    <a class="dropdown-item " href="/Admin/Category/Index">Danh sách thể loại</a>
+                    <a class="dropdown-item " href="/Admin/SanPham/KhoHang">Quản Lý Kho</a>
+                </div>
+                    
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-users"></i>
+                    <span>Quản lí nhập hàng</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+
+                    <a class="dropdown-item" href="/Admin/SanPham/TaoDon">Tạo Đơn Nhập</a>
+                    <a class="dropdown-item" href="/Admin/NhapHang/Index">Nhập Hàng</a>
+
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-calendar-check"></i>
+                    <span>Quản lí NCC</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="/Admin/NhaCungCap/Create">Thêm nhà cung cấp</a>
+                    <a class="dropdown-item" href="/Admin/NhaCungCap/Index">Danh Sách NCC</a>
+                </div>
+
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-comments"></i>
+                    <span>Quản Lý Trợ Giúp</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    
+                    <a class="dropdown-item" href="/Admin/FeedBack/Index">Trợ Giúp</a>
+                </div>
+
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Quản lí đơn hàng</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="/Admin/HoaDon/XacNhan">Danh sách đơn mới</a>
+                    <a class="dropdown-item" href="/Admin/HoaDon/DongGoi">Danh sách đóng gói</a>
+                    <a class="dropdown-item" href="/Admin/HoaDon/HoanThanh">DS đơn hoàn thành</a>
+                </div>
+
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-tools"></i>
+                    <span>Quản lí Website</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="/Admin/WebManager/Menu">Quản lý Menu</a>
+                    <a class="dropdown-item" href="/Admin/WebManager/Silder">Quản Lý Silder</a>
+                    
+                </div>
+
+            </li>
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chart-area"></i>
+                    <span>Thông Kê</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="/Admin/ThongKe/ThongKeSanPhamHot">Sản Phẩm Hot</a>
+                    <a class="dropdown-item" href="/Admin/ThongKe/DoanhThu">Doanh Thu</a>
+                    <a class="dropdown-item" href="/Admin/ThongKe/DoanhThuChart">Xem Biểu Đồ</a>
+                </div>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Login/Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Đăng Xuất</span>
+                </a>
+            </li>
+        </ul>
+
+        <div id="content-wrapper">
+
+            <div class="container-fluid">
+
+               
+
+                <!-- Page Content -->
+                <h1>@ViewBag.Title</h1>
+                <hr>
+                @RenderBody()
+
+            </div>
+            <!-- /.container-fluid -->
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Trang quản lý - Nhà Sách Phương Nam</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    
+    <script src="~/Content/Client/vendor/jquery/jquery.min.js"></script>
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+   
+    <script src="~/Content/Client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    
+    <script src="~/Content/Client/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+    
+    <script src="~/Content/Client/js/Plugins/ckfinder/ckfinder.js"></script>
+
+
+    
+    <script src="~/Content/Client/js/Plugins/ckeditor/ckeditor.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/Content/Client/js/sb-admin.min.js"></script>
+    <script src="~/Content/libs/angular/angular.js"></script>
+    <script src="~/Content/libs/commonjs/commonAlias.js"></script>
+    <script src="~/Content/libs/commonjs/commonService.js"></script>
+    <script src="~/Content/libs/toastr/toastr.js"></script>
+    @RenderSection("jsFooter",required:false)
+</body>
+
+</html>
+

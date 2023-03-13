@@ -1,0 +1,94 @@
+﻿@model X.PagedList.IPagedList<Mood.ThongKeModel.ThongKeModelView>
+@using X.PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Doanh Thu";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+@section jsFooter{
+<link href="~/Content/libs/toastr/toastr.css" rel="stylesheet" />
+    <script src="~/Content/js/Controller/hoaDonController.js"></script>
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Thông kê doanh thu</li>
+</ol>
+@using (Html.BeginForm("DoanhThu", "ThongKe", FormMethod.Get))
+{
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <label><b>Từ ngày</b></label>
+                <input type="date" name="fromDate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+            </div>
+            <div class="col-md-4">
+                <label><b>Đến ngày</b></label>
+                <input type="date" name="todate" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-10">
+                <a href="/Admin/ThongKe/DoanhThu" class="btn btn-sm btn-success">Tải dữ liệu biểu đồ</a>
+                <a href="/Admin/ThongKe/DoanhThuChart" class="btn btn-sm btn-success"><i class="fas fa-filter"></i> Xem dưới dạng biểu đồ.</a>
+                <button class="btn btn-sm btn-success" type="submit">Thống Kê</button>
+                <a href="#" class="btn btn-sm btn-success btnExportDoanhSo" data-fromdate="@ViewBag.fromDate" data-todate="@ViewBag.todate" > Export Excel </a>
+                
+            </div>
+            
+            <div class="col-md-2">
+                <span class="text-success"><b>Tổng Doanh Thu Bán Là: @ViewBag.tongThu.ToString("N0") VNĐ</b></span><br />
+                <span class="text-danger"><b>Tổng Lợi Nhuận Là: @ViewBag.tongLai.ToString("N0") VNĐ</b></span>
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Ngày Thống kê</th>
+            <th>Doanh Thu Bán Hàng</th>
+            <th>Lợi Nhuận</th>
+
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.DoanhThuNgay.ToString("dd/MM/yyyy")</td>
+                <td>@item.DoanhThu VNĐ</td>
+                <td>@item.TongLai VNĐ</td>
+            </tr>
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td colspan="1"><span class="text-success"><b>Tổng Doanh Thu Bán Là: @ViewBag.tongThu.ToString("N0") VNĐ</b></span></td>
+            <td colspan="3"><span class="text-danger"><b>Tổng Lợi Nhuận Là: @ViewBag.tongLai.ToString("N0") VNĐ</b></span></td>
+        </tr>
+    </tfoot>
+</table>
+
+
+@Html.PagedListPager(Model, page => Url.Action("DoanhThu", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+
+
+

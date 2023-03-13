@@ -1,0 +1,151 @@
+﻿@model X.PagedList.IPagedList<Mood.EF2.Orders>
+@using X.PagedList.Mvc;
+@using BaiTapLon.Common;
+@{
+    ViewBag.Title = "MessengerUser";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+
+    var session = (UserLogin)Session[Constant.USER_SESSION];
+}
+
+
+
+@if (session != null)
+{
+    <main id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <h6 class="font-weight-medium font-size-7 pt-5 pt-lg-8  mb-5 mb-lg-7">Thông tin tài khoản</h6>
+                    <div class="tab-wrapper">
+                        <ul class="my__account-nav nav flex-column mb-0" role="tablist" id="pills-tab">
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0 active" href="tong-quan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Tổng quan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/danh-sach-don-hang-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Đơn hàng</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/tin-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông báo (@session.tolMes)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/phan-hoi-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Phản Hồi (@session.tolRep)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/thong-tin-ca-nhan-@session.userId">
+                                    <span class="font-weight-normal text-gray-600">Thông tin cá nhân</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" id="pills-six-example1-tab" data-toggle="pill" href="#pills-six-example1" role="tab" aria-controls="pills-six-example1" aria-selected="false">
+                                    <span class="font-weight-normal text-gray-600">Yêu thích</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mx-0">
+                                <a class="nav-link d-flex align-items-center px-0" href="/Users/Logout">
+                                    <span class="font-weight-normal text-gray-600">Thoát</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="pt-5 pl-md-5 pt-lg-8 pl-lg-9 space-bottom-lg-2 mb-lg-4">
+                        <h6 class="font-weight-medium font-size-7 ml-lg-1 mb-lg-8 pb-xl-1">Thông báo</h6>
+                        <table class="table">
+                            <thead>
+                                <tr class="border">
+                                    <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Tiêu Đề</th>
+                                    <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Người Gửi</th>
+                                    <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Ngày Tạo</th>
+                                    <th scope="col" class="py-3 border-bottom-0 font-weight-medium">Xem Chi Tiết</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="border">
+
+
+                                        @if (item.Status == 0)
+                                        {
+                                            if (item.GiaoHang == 0)
+                                            {
+                                                <td class="align-middle py-5 text-info">Bạn vừa có một đơn hàng mới [@item.IDOder] đang chờ duyệt </td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (item.GiaoHang == 0)
+                                            {
+                                                <td class="align-middle py-5 text-info">Đơn hàng mã [@item.IDOder] đã được phê duyệt </td>
+                                            }
+                                            else
+                                            {
+                                                if (item.GiaoHang == 1)
+                                                {
+                                                    if (item.NhanHang == 0)
+                                                    {
+                                                        <td class="align-middle py-5 text-success">Đơn hàng mã [@item.IDOder] đã được đóng gói chờ xuất kho. </td>
+                                                    }
+
+                                                }
+                                                else if (item.GiaoHang == 2)
+                                                {
+                                                    if (item.NhanHang == 2)
+                                                    {
+                                                        <td class="align-middle py-5 text-danger">Đơn hàng mã [@item.IDOder] đã được trả lại </td>
+                                                    }
+                                                    else if (item.NhanHang == 0)
+                                                    {
+                                                        <td class="align-middle py-5 text-info">Đơn hàng mã [@item.IDOder] đang được giao đến bạn. </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="align-middle py-5 text-success">Đơn hàng mã [@item.IDOder] đã được chuyển hoàn tất </td>
+                                                    }
+                                                }
+                                            }
+                                        }
+
+
+                                        <td class="align-middle py-5">System</td>
+                                        <td class="align-middle py-5">@item.NgayTao</td>
+                                        <td class="align-middle py-5">
+                                            <div class="d-flex justify-content-center">
+                                                <a href="/chi-tiet-don-hang-@item.IDOder" class="btn btn-dark rounded-0 btn-wide font-weight-medium">
+                                                    Xem
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                        <nav aria-label="Page navigation example">
+                            @Html.PagedListPager(Model, page => Url.Action("MessengerUser", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string[] { "pagination pagination__custom justify-content-md-center flex-nowrap flex-md-wrap overflow-auto overflow-md-visble" },
+                        LiElementClasses = new string[] { "flex-shrink-0 flex-md-shrink-1 page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+}

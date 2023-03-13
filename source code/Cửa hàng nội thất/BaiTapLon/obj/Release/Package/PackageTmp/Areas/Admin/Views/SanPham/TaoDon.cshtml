@@ -1,0 +1,81 @@
+﻿@model X.PagedList.IPagedList<Mood.EF2.Sanpham>
+@using X.PagedList.Mvc;
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý sản phẩm hết hàng</li>
+</ol>
+@using (Html.BeginForm("TaoDon", "Sanpham", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+            
+        </div>
+        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+        <div class="col-md-4">
+            <a href="/Admin/SanPham/LocSachHetHang" class="btn btn-success">Lọc Sách Hết Hàng</a>
+        </div>
+       
+
+    </div>
+}
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Tên sách</th>
+            <th>Ảnh</th>
+            <th>Có Thể bán</th>
+            <th>Tồn Kho</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IDContent">
+                <td>@item.Name</td>
+
+                <td>
+                    <img src="@item.Images" alt="Ảnh sách" width="80" height="80" />
+                </td>
+
+                <td>@item.Soluong</td>
+                <td>@item.TonKho</td>
+                <td>
+                    @if (item.Status)
+                    {
+
+                        <p class="badge bg-success text-white">Đang Bán</p>
+                    }
+                    else
+                    {
+
+                        <p class="badge bg-danger text-white">Ngừng Bán</p>
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/NhapHang/LapPhieuNhap/@item.IDContent" class="btn btn-info btn-sm"><i class="fas fa-user-edit"></i> Tạo đơn nhập. </a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("TaoDon", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })

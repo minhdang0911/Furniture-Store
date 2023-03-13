@@ -1,0 +1,91 @@
+﻿@model X.PagedList.IPagedList<Mood.SanPhamViewModel.SanPhamModel>
+@using X.PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Quản Lý Sản Phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+ <!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/Admin/Homes">Trang Chủ</a>
+    </li>
+    <li class="breadcrumb-item active">Quản lý sách</li>
+</ol>
+@using (Html.BeginForm("Index", "Sanpham", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <input class="form-control" type="text" name="searhString" placeholder="Nhập từ khóa cần tìm kiếm..." />
+        </div>
+        <button type="submit" class="btn-danger btn-sm"><i class="fas fa-search"></i> Tìm kiếm</button>
+        <div class="col-md-5">
+            <a href="/Admin/Sanpham/Create" class="btn btn-success"><i class="fas fa-plus"></i> Thêm sản phẩm mới</a>
+        </div>
+            
+    </div>
+}
+
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr class="text-center">
+            <th>Tên sách</th>
+            <th>Tác giả</th>
+            <th>Nhà xuất bản</th>
+            <th>Ảnh</th>
+            <th>Thể loại</th>
+            <th>Có thể bán</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.IDContent">
+                <td>@item.Name</td>
+                <td>@item.TacGia</td>
+                <td>@item.NhaXuatBan</td>
+                <td>
+                    <img src="@item.Images" alt="Ảnh sách" width="80" height="80"/>
+                </td>
+                <td>@item.TenTheloai</td>
+                <td>@item.Soluong</td>
+                <td>
+                    @if (item.Status)
+                    {
+
+                        <p class="badge bg-success text-white">Đang Bán</p>
+                    }
+                    else
+                    {
+
+                        <p class="badge bg-danger text-white">Ngừng Bán</p>
+                    }
+                </td>
+                <td>
+                    <a href="/Admin/Sanpham/Edit/@item.IDContent" class="btn btn-info btn-sm"><i class="fas fa-user-edit"></i> Sửa </a>
+                    @Ajax.ActionLink(" Xóa", "Delete", new { @id = item.IDContent }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xóa sách này  ?",
+                   OnComplete = "$('#row_" + item.IDContent + "').remove()",
+                   HttpMethod = "Delete"
+               }, new { @class = "btn btn-danger btn-sm far fa-trash-alt" })
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Ngay dưới table là hiện thị thông tin trang-->
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToPreviousPageFormat = "Trước",
+                        LinkToNextPageFormat = "Kế Tiếp",
+                        PageClasses = new string[] { "page-link" }
+                    })
+
